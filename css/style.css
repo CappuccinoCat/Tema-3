@@ -1103,6 +1103,7 @@ body.menu-open .hero-thread {
   flex-direction: column;
   align-items: center;
   gap: .4rem;
+  color: #d0d0d5; /* lysere end --muted: tekst ligger over baggrundsbillede (kontrast ≥ 4,5:1) */
 }
 
 .event-facts-bottom .icon {
@@ -1698,7 +1699,7 @@ body.menu-open .hero-thread {
   display: none;
 }
 
-.faq-list summary::after {
+.faq-list .faq-icon::after {
   content: "+";
   position: absolute;
   right: .4rem;
@@ -1706,7 +1707,7 @@ body.menu-open .hero-thread {
   font-size: 1.5rem;
 }
 
-.faq-list details[open] summary::after {
+.faq-list details[open] .faq-icon::after {
   content: "−";
 }
 
