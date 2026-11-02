@@ -95,12 +95,38 @@ function getValidationMessage(field) {
   return "Kontrollér feltets indhold.";
 }
 
+function createIcon(iconId) {
+  const svgNamespace = "http://www.w3.org/2000/svg";
+  const icon = document.createElementNS(svgNamespace, "svg");
+  const use = document.createElementNS(svgNamespace, "use");
+  icon.setAttribute("class", "icon");
+  icon.setAttribute("aria-hidden", "true");
+  use.setAttribute("href", `#${iconId}`);
+  icon.append(use);
+  return icon;
+}
+
+// Fejlbesked: ikon + "FEJL!" (koral) + forklaring (hvid). Opdateres kun, når teksten ændres.
+function setFieldError(errorElement, message) {
+  if ((errorElement.dataset.message ?? "") === message) return;
+  errorElement.dataset.message = message;
+  if (!message) {
+    errorElement.replaceChildren();
+    return;
+  }
+  const label = document.createElement("strong");
+  const text = document.createElement("span");
+  label.textContent = "Fejl!";
+  text.append(label, ` ${message}`);
+  errorElement.replaceChildren(createIcon("i-octagon-alert"), text);
+}
+
 function setFieldState(field, showError) {
   const errorElement = document.getElementById(`${field.id}-error`);
   if (!errorElement) return field.validity.valid;
   const isValid = field.validity.valid;
   field.setAttribute("aria-invalid", String(!isValid));
-  errorElement.textContent = !isValid && showError ? `Fejl: ${getValidationMessage(field)}` : "";
+  setFieldError(errorElement, !isValid && showError ? getValidationMessage(field) : "");
   return isValid;
 }
 
@@ -132,6 +158,7 @@ function updateQuantitySummary() {
   const quantity = Number(ticketQuantity.value);
   const option = ticketType.selectedOptions[0];
   if (!ticketType.value || !quantity) {
+    quantitySummary.classList.remove("field-success");
     quantitySummary.textContent = "Vælg billettype og antal.";
     return;
   }
@@ -139,7 +166,10 @@ function updateQuantitySummary() {
   const participants = quantity * peoplePerTicket;
   const ticketWord = quantity === 1 ? "billet/billetpakke" : "billetter/billetpakker";
   const participantWord = participants === 1 ? "deltager" : "deltagere";
-  quantitySummary.textContent = `${quantity} ${ticketWord} giver adgang for ${participants} ${participantWord}.`;
+  const summary = document.createElement("span");
+  summary.textContent = `${quantity} ${ticketWord} giver adgang for ${participants} ${participantWord}.`;
+  quantitySummary.classList.add("field-success");
+  quantitySummary.replaceChildren(createIcon("i-circle-check"), summary);
 }
 
 ticketType?.addEventListener("change", updateQuantitySummary);

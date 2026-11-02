@@ -1396,11 +1396,16 @@ body.menu-open .hero-thread {
 /* === Signup page and form === */
 
 .signup-hero {
-  min-height: 580px;
-  background-image: url("../assets/images/signup/signup-07.png");
+  min-height: 400px; /* mobilbilledet er 402 × 400 px */
+  background-image: url("../assets/images/signup/hero-mobile-signup.png");
   display: flex;
   align-items: center;
-  padding: 5rem 0;
+  padding: 3rem 0;
+}
+
+/* Ingen gradient-overlay: billedet har 66 % styrke oven på --black (#0d0d11), dvs. en flad tone på 34 % */
+.signup-hero .hero-overlay {
+  background: rgba(13, 13, 17, .34);
 }
 
 .signup-hero > .container {
@@ -1437,11 +1442,12 @@ body.menu-open .hero-thread {
 .signup-section {
   position: relative;
   isolation: isolate;
-  background: url("../assets/images/signup/signup-01.png") center/cover no-repeat;
+  background: url("../assets/images/signup/signup-mobile.png") center/cover no-repeat;
 }
 
+/* Samme princip som herotet: billedet har 66 % styrke oven på --black, ingen mørk overlay */
 .signup-overlay {
-  background: rgba(13, 13, 17, .82);
+  background: rgba(13, 13, 17, .34);
   z-index: -1;
 }
 
@@ -1519,12 +1525,24 @@ body.menu-open .hero-thread {
   border: 2px solid var(--error);
 }
 
+/* Fejl: koral ikon og "FEJL!", forklaringen er hvid. Farven er aldrig den eneste indikator (ikon + tekst). */
 .field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
   min-height: 1.25em;
   margin: .35rem 0 0;
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.field-error .icon,
+.field-error strong {
   color: var(--error);
-  font-size: .9rem;
-  font-weight: 700;
+}
+
+.field-error strong {
+  text-transform: uppercase;
 }
 
 .field-hint,
@@ -1532,6 +1550,19 @@ body.menu-open .hero-thread {
   margin: .4rem 0 0;
   color: #d0d0d5;
   font-size: .9rem;
+}
+
+/* Succes: blå check, teksten er hvid */
+.field-success {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  color: var(--white);
+}
+
+.field-success .icon,
+.form-success .icon {
+  color: var(--blue);
 }
 
 .privacy-note {
@@ -1576,11 +1607,16 @@ body.menu-open .hero-thread {
 /* === Contact page and FAQ === */
 
 .contact-hero {
-  min-height: 520px;
-  background-image: url("../assets/images/contact/contact-02.png");
+  min-height: 400px; /* mobilbilledet er 402 × 400 px */
+  background-image: url("../assets/images/signup/hero-mobile-signup.png");
   display: flex;
   align-items: center;
   padding: 4rem 0;
+}
+
+/* Ingen gradient-overlay: billedet har 66 % styrke oven på --black (#0d0d11), dvs. en flad tone på 34 % */
+.contact-hero .hero-overlay {
+  background: rgba(13, 13, 17, .34);
 }
 
 .contact-hero h1 {
@@ -1605,12 +1641,19 @@ body.menu-open .hero-thread {
 }
 
 .form-success {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
   padding: 1rem;
   border: 2px solid var(--yellow);
   border-radius: var(--radius);
   background: var(--black);
   color: var(--white);
   font-weight: 700;
+}
+
+.form-success[hidden] {
+  display: none;
 }
 
 .faq-list details {
@@ -2226,12 +2269,41 @@ body.menu-open .hero-thread {
     height: 26px;
   }
 
-  /* Alle heroer har samme højde som forsidens (Figma: 790 px) */
+  /* Heroerne har samme højde som forsidens (Figma: 790 px) – undtagen Kontakt og Tilmelding */
   .home-hero,
-  .page-hero,
-  .signup-hero,
-  .contact-hero {
+  .page-hero {
     min-height: 790px;
+  }
+
+  /* Tilmelding: lavere hero end forsidens. Billedet er centreret og beskåret oppe og nede; 620 px er valgt, så hele månen er med. */
+  .signup-hero {
+    min-height: 620px;
+    background-image: url("../assets/images/signup/signup-07.png");
+    background-position: center;
+  }
+
+  /* Tilmelding: desktop-billedet til formularsektionen (mobil bruger hero-mobile-signup.png og signup-mobile.png) */
+  .signup-section {
+    background-image: url("../assets/images/signup/signup-01.png");
+  }
+
+  /*
+    Kontakt: lav hero (Figma: 392 px). Billedet står i fuld bredde og er forskudt opad (Figma: -286 px),
+    så træerne og tågen fra bunden af billedet vises. "Har du spørgsmål?" står på én linje (Figma: 86 px + 96 px).
+  */
+  .contact-hero {
+    min-height: 392px;
+    background-image: url("../assets/images/contact/contact-02.png");
+    background-position: center 68%;
+  }
+
+  .contact-hero h1 {
+    max-width: none;
+    font-size: 5.375rem;
+  }
+
+  .contact-hero h1 .pirata {
+    font-size: 6rem;
   }
 
   /* Fælles hero-farve for Om festen og Dresscode: grå bund med en mørk tone, der er lysere end menu og sektion under */
