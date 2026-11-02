@@ -69,7 +69,9 @@
   --blue: #4da3ff;
   --error: #ff8278;
   --radius: 10px;
-  --container: 1180px;
+  --container: 1280px; /* Figma: 1440 px frame med 80 px sidemargen */
+  --header-pad-x: max(2rem, calc((100vw - var(--container)) / 2)); /* header: afstand til sidekant (desktop) */
+  --nav-cta-width: 186px; /* header-CTA (Figma: 186 × 56 px). Bruges også til at centrere edderkoppetråden under knappen */
   --space-section: clamp(4.5rem, 8vw, 8rem);
 }
 
@@ -153,7 +155,18 @@ p {
   margin-bottom: 1.35rem;
 }
 
-
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--lg { width: 30px; height: 30px; } /* pilen i CTA-knappen */
+.icon--xl { width: 78px; height: 78px; } /* advarselstrekanten */
 
 .pirata {
   font-family: "Pirata One", serif;
@@ -195,6 +208,7 @@ p {
   top: .75rem;
   left: .75rem;
   padding: .8rem 1rem;
+  border-radius: var(--radius);
   background: var(--yellow);
   color: var(--black);
   font-weight: 800;
@@ -240,14 +254,11 @@ p {
   line-height: 1;
 }
 
-.brand-mark-dark {
-  color: var(--black);
-}
-
 .menu-toggle {
   width: 44px;
   height: 44px;
   border: 0;
+  border-radius: var(--radius);
   background: transparent;
   display: grid;
   place-items: center;
@@ -344,7 +355,7 @@ p {
   gap: .65rem;
   padding: .9rem 1.5rem;
   border: 2px solid var(--yellow);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--yellow);
   color: var(--black);
   font-weight: 700;
@@ -365,8 +376,9 @@ p {
 
 .button-secondary {
   background: transparent;
-  color: var(--white);
-  border-color: var(--white);
+  color: var(--yellow);
+  border-color: #effe0091;
+  padding: 0 38px;
 }
 
 .button-secondary:hover {
@@ -399,7 +411,7 @@ p {
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: .9rem;
+  gap: 1.7rem;
 }
 
 .text-link {
@@ -407,6 +419,10 @@ p {
   font-weight: 700;
   color: var(--yellow);
   margin-top: .5rem;
+}
+
+.text-link .icon {
+  vertical-align: middle;
 }
 
 .eyebrow {
@@ -474,10 +490,11 @@ p {
   text-transform: uppercase;
   font-weight: 800;
   letter-spacing: .09em;
+  line-height: 1.2;
 }
 
 .event-facts dd {
-  margin: .25rem 0 0;
+  margin: 0;
   font-weight: 700;
   font-size: 1.1rem;
 }
@@ -486,6 +503,23 @@ p {
   grid-template-columns: repeat(2, 1fr);
   max-width: 700px;
   gap: 0 1rem;
+}
+
+/* Ikon til venstre for label og værdi, lodret centreret ud for begge linjer */
+.event-facts-hero > div {
+  position: relative;
+}
+
+.event-facts-hero dt,
+.event-facts-hero dd {
+  padding-left: 2.15rem;
+}
+
+.event-facts-hero .icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
 }
 
 
@@ -768,9 +802,17 @@ body.menu-open .hero-thread {
   margin-bottom: 3rem;
 }
 
+.home-about-section .card-scroller {
+  gap: 1.5rem;
+}
+
 .home-about-section .image-card {
   background: transparent;
   border-radius: 0;
+}
+
+.home-about-section .image-card img {
+  border-radius: var(--radius);
 }
 
 .home-about-section .image-card > div {
@@ -797,7 +839,7 @@ body.menu-open .hero-thread {
   aspect-ratio: 3/4;
   object-fit: cover;
   object-position: center top;
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 
 .portrait-grid img:nth-child(3) {
@@ -812,19 +854,15 @@ body.menu-open .hero-thread {
 
 .accent-list li {
   position: relative;
-  padding: .8rem 0 .8rem 1.6rem;
+  padding: .8rem 0 .8rem 2.25rem;
   border-bottom: 1px solid var(--gray-2);
 }
 
-.accent-list li::before {
-  content: "";
+.accent-list .icon {
   position: absolute;
+  top: 50%;
   left: 0;
-  top: 1.25rem;
-  width: .55rem;
-  height: .55rem;
-  background: var(--yellow);
-  transform: rotate(45deg);
+  transform: translateY(-50%);
 }
 
 .cta-band {
@@ -853,12 +891,13 @@ body.menu-open .hero-thread {
 .tickets-home {
   position: relative;
   isolation: isolate;
-  background: url("../assets/images/home/home-16.png") center/cover no-repeat;
+  background: #282835;
   text-align: center;
 }
 
 .tickets-home .tickets-overlay {
-  background: rgba(13, 13, 17, .72);
+  background: url("../assets/images/home/home-16.png") center/cover no-repeat;
+  opacity: 20%;
   z-index: -1;
 }
 
@@ -910,8 +949,22 @@ body.menu-open .hero-thread {
   opacity: .75;
 }
 
+.ticket-card h3,
+.ticket-card p:not(.price):not(.ticket-status) {
+  color: var(--muted);
+}
+
+/* Udsolgt-kortet er dæmpet (opacity), så teksten er lysere for at holde kontrasten */
+.ticket-card.sold-out h3,
+.ticket-card.sold-out p:not(.price):not(.ticket-status) {
+  color: #c4c4c4;
+}
+
 .ticket-status {
   order: 10;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
   margin: auto 0 0;
   padding-top: 1.5rem;
   font-size: .8rem;
@@ -921,14 +974,23 @@ body.menu-open .hero-thread {
   color: var(--yellow);
 }
 
+.available .ticket-status {
+  color: var(--white);
+}
+
 .sold-out .ticket-status {
   color: var(--white);
   text-decoration: line-through;
 }
 
 .price {
-  font: 700 2rem/1 Caudex, serif;
+  font: 700 3rem/1 Caudex, serif;
   color: var(--white);
+}
+
+.sold-out .price {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 .badge {
@@ -941,7 +1003,7 @@ body.menu-open .hero-thread {
   font-size: .75rem;
   font-weight: 800;
   text-transform: uppercase;
-  padding: .35rem .7rem;
+  padding: .35rem 2rem;
   border-radius: 99px;
 }
 
@@ -975,10 +1037,7 @@ body.menu-open .hero-thread {
   gap: .4rem;
 }
 
-.event-facts-bottom img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+.event-facts-bottom .icon {
   margin-bottom: .25rem;
 }
 
@@ -1312,6 +1371,7 @@ body.menu-open .hero-thread {
 
 .demo-notice {
   border-left: 4px solid var(--yellow);
+  border-radius: var(--radius);
   padding: 1rem;
   background: rgba(40, 40, 53, .9);
 }
@@ -1465,6 +1525,7 @@ body.menu-open .hero-thread {
 .form-success {
   padding: 1rem;
   border: 2px solid var(--yellow);
+  border-radius: var(--radius);
   background: var(--black);
   color: var(--white);
   font-weight: 700;
@@ -1531,7 +1592,8 @@ body.menu-open .hero-thread {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: .5rem;
+  color: var(--muted);
 }
 
 .footer-contact > a {
@@ -1542,6 +1604,7 @@ body.menu-open .hero-thread {
   display: flex;
   align-items: center;
   gap: .45rem;
+  color: var(--white);
   font-weight: 700;
 }
 
@@ -1596,7 +1659,7 @@ body.menu-open .hero-thread {
   }
 
   .event-facts-hero {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(max-content, 1fr));
   }
 
   .event-facts-bottom {
@@ -1611,18 +1674,30 @@ body.menu-open .hero-thread {
     min-height: 0;
   }
 
+  /* Ikon til venstre, lodret centreret ud for label og værdi */
+  .event-facts-bottom > div {
+    position: relative;
+  }
+
   .event-facts-bottom dt {
-    flex-direction: row;
-    align-items: center;
-    gap: .45rem;
+    display: block;
   }
 
-  .event-facts-bottom img {
-    margin: 0;
-  }
-
+  .event-facts-bottom dt,
   .event-facts-bottom dd {
-    margin-left: 31px;
+    padding-left: 2.15rem;
+  }
+
+  .event-facts-bottom .icon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+
+  .event-facts-hero .icon {
+    left: 1rem;
   }
 
   .event-facts > div {
@@ -1667,7 +1742,7 @@ body.menu-open .hero-thread {
     grid-template-columns: .8fr 1.2fr;
     align-items: start;
     column-gap: 2rem;
-    row-gap: 1.25rem;
+    row-gap: 2.5rem;
     text-align: left;
   }
 
@@ -1698,7 +1773,7 @@ body.menu-open .hero-thread {
 
   .site-header {
     height: 96px;
-    padding-inline: max(2rem, calc((100vw - var(--container)) / 2));
+    padding-inline: var(--header-pad-x);
   }
 
   .menu-toggle {
@@ -1727,9 +1802,19 @@ body.menu-open .hero-thread {
     text-underline-offset: .45rem;
   }
 
+  /* Figma: padding 18 px / 36 px, gap 10 px, ikon 24 px i en 56 px høj knap */
   .site-nav .button {
+    min-width: var(--nav-cta-width);
+    min-height: 56px;
+    padding: 18px 36px;
+    gap: 10px;
     margin-left: .8rem;
     color: var(--black);
+    line-height: 20px;
+  }
+
+  .site-nav .button .icon {
+    margin-block: -2px;
   }
 
   .site-nav .button:hover,
@@ -1745,15 +1830,35 @@ body.menu-open .hero-thread {
     --hero-image-start: translate(calc(-3.63% / 1.1198), 0);
     --hero-image-end: translate(calc(-2.93% / 1.1198), calc(-1.4% / 1.1421));
     --hero-overlay-end: .68;
-    --thread-top: -26.85px;
-    --thread-right: 147px;
-    --thread-end: 317px;
+    /* Tråden hænger 2 px under header-CTA'en og midt for den (knappens bund ligger 20 px over heroen) */
+    --thread-top: -18px;
+    --thread-right: calc(var(--header-pad-x) + var(--nav-cta-width) / 2 - .5px);
+    --thread-start: 21px;
+    --thread-end: 308px;
     --spider-size: 50px;
     --spider-hang-start: 22px;
     --spider-hang-end: 14px;
     min-height: 790px;
     align-items: center;
     padding-block: 4rem;
+  }
+
+  /* Hero-titel (desktop): intro-linjen 70 px, "HorrorHouse" 128 px på linjen under */
+  .home-hero h1 {
+    max-width: none;
+  }
+
+  .hero-title-line,
+  .hero-title-brand {
+    display: block;
+  }
+
+  .hero-title-line {
+    font-size: 4.375rem;
+  }
+
+  .hero-title-brand {
+    font-size: 8rem;
   }
 
   .hero-media {
@@ -1818,6 +1923,11 @@ body.menu-open .hero-thread {
     gap: 1.5rem;
   }
 
+  /* Figma: 388 px kort med 58 px mellemrum på 1440 px. Gap skalerer ned på smallere skærme */
+  .home-about-section .card-scroller {
+    gap: clamp(1.5rem, 4vw, 58px);
+  }
+
   .image-card,
   .look-card,
   .ticket-card {
@@ -1839,8 +1949,8 @@ body.menu-open .hero-thread {
     text-align: left;
   }
 
-  .cta-inner .brand-mark {
-    font-size: 2.5rem;
+  .cta-inner .button {
+    flex-shrink: 0;
   }
 
   .page-hero {
@@ -1873,7 +1983,7 @@ body.menu-open .hero-thread {
   .footer-grid {
     grid-template-columns: minmax(250px, .8fr) minmax(360px, 1.2fr);
     column-gap: 5rem;
-    row-gap: 1.25rem;
+    row-gap: 2.5rem;
   }
 }
 
