@@ -230,12 +230,21 @@ p {
 .site-header {
   height: 70px;
   padding: 0 1rem;
-  background: var(--black);
+  /* Mobil: gennemsigtig, så spindelvæven på forsiden går helt op til toppen af siden */
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   z-index: 100;
+}
+
+/* Åben menu: headeren dækker spindelvæven igen og får en grå streg i hele sidens bredde.
+   padding-top (1 px) udligner stregen, så logo og burger ikke flytter sig. */
+body.menu-open .site-header {
+  background: var(--black);
+  border-bottom: 1px solid var(--gray-2);
+  padding-top: 1px;
 }
 
 .brand {
@@ -308,7 +317,7 @@ p {
   padding: 3rem 1.25rem;
   flex-direction: column;
   align-items: stretch;
-  gap: .5rem;
+  gap: 65px; /* Mobilmenu: 65 px mellem menupunkterne */
   overflow: auto;
 }
 
@@ -316,12 +325,19 @@ p {
   display: flex;
 }
 
+/* Mobilmenu: centrerede links på 36 px uden streger imellem */
 .site-nav a {
-  padding: 1rem;
-  border-bottom: 1px solid var(--gray-2);
+  padding: 0;
+  text-align: center;
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 2.25rem;
   font-weight: 600;
+}
+
+/* Tilmelding-knappen i mobilmenuen bevarer knapstørrelsen */
+.site-nav .button {
+  padding: 1rem;
+  font-size: 1.25rem;
 }
 
 .site-nav a[aria-current="page"] {
@@ -408,10 +424,16 @@ p {
   padding: .7rem 1.25rem;
 }
 
+/* Mobil: to lige brede knapper side om side, der fylder indholdets bredde */
 .button-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.7rem;
+  gap: 1.25rem;
+}
+
+.button-row .button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 1rem;
 }
 
 .text-link {
@@ -466,6 +488,17 @@ p {
 
 .home-hero h1 {
   max-width: 850px;
+}
+
+/* Hero-titel (mobil): intro-linjen er lidt mindre end h1 (ca. 45 px ved 402 px), så "Du er udvalgt til" ikke bryder ned på en ny linje */
+.hero-title-line {
+  font-size: clamp(2.25rem, 11.2vw, 3rem);
+}
+
+/* "HorrorHouse" på egen linje, ca. 335 px bred ved 402 px skærmbredde */
+.hero-title-brand {
+  display: block;
+  font-size: clamp(3.5rem, 18.3vw, 8rem);
 }
 
 .hero-lead {
@@ -531,6 +564,8 @@ p {
   JavaScript and with reduced motion. The @keyframes only describe the START
   state. Mobile-first: mobile values here, desktop values in the 900px query.
   Timing is controlled by the --load-* variables.
+  The hero image itself does not move: it fades in from darkness (the overlay
+  lightens) and stays at --hero-image-offset.
 */
 
 :root {
@@ -543,9 +578,10 @@ p {
 .home-hero {
   --hero-image-height: 284px;
   --hero-overlay-start: .9;
-  --hero-overlay-end: .72;
+  --hero-overlay-end: .60;
   --thread-top: -20px;
-  --thread-right: 9px;
+  /* Midt under burgerikonet: header-padding 1rem + halv knap 22 px − decor-layer 20 px − halv tråd .5 px */
+  --thread-right: calc(1rem + 22px - 20px - .5px);
   --thread-start: 30px;
   --thread-end: 201px;
   --spider-size: 20px;
@@ -554,7 +590,8 @@ p {
   min-height: 760px;
   display: flex;
   align-items: flex-start;
-  padding-block: calc(var(--hero-image-height) + 1.25rem) 4rem;
+  /* Nederste padding er 0: afstanden fra knapperne til "Om festen" er kun sektionens eget topmellemrum (--space-section) */
+  padding-block: calc(var(--hero-image-height) + 1.25rem) 0;
   /* No isolation: the layers below are ordered together with the neighbouring sections */
   isolation: auto;
 }
@@ -597,8 +634,7 @@ p {
   max-width: none;
   height: 100%;
   object-fit: cover;
-  transform: var(--hero-image-end, none);
-  animation: hero-image-pan var(--load-fade-duration) var(--load-fade-easing) backwards;
+  transform: var(--hero-image-offset, none);
 }
 
 .home-hero .hero-overlay {
@@ -725,12 +761,6 @@ body.menu-open .hero-thread {
   }
 }
 
-@keyframes hero-image-pan {
-  from {
-    transform: var(--hero-image-start, none);
-  }
-}
-
 @keyframes web-fade-in {
   from {
     opacity: 0;
@@ -760,6 +790,8 @@ body.menu-open .hero-thread {
   scroll-snap-type: x mandatory;
   padding: .25rem 1rem 1.25rem;
   margin-inline: -1rem;
+  /* Første kort snapper til indholdets venstre margen (samme som padding), ikke til skærmkanten */
+  scroll-padding-inline: 1rem;
   scrollbar-color: var(--yellow) var(--gray);
 }
 
@@ -802,11 +834,13 @@ body.menu-open .hero-thread {
   margin-bottom: 3rem;
 }
 
+/* Mobil: smallere kort (ca. 46 px af næste kort kan ses ved 402 px) og 42 px mellemrum */
 .home-about-section .card-scroller {
-  gap: 1.5rem;
+  gap: 2.625rem;
 }
 
 .home-about-section .image-card {
+  flex-basis: min(74vw, 330px);
   background: transparent;
   border-radius: 0;
 }
@@ -872,6 +906,11 @@ body.menu-open .hero-thread {
   text-align: center;
 }
 
+/* Forsidens "Styr på outfittet"-banner vises ikke på mobil (vises igen fra 900 px) */
+.cta-band-desktop-only {
+  display: none;
+}
+
 .cta-inner {
   display: flex;
   flex-direction: column;
@@ -917,6 +956,11 @@ body.menu-open .hero-thread {
   color: inherit;
 }
 
+/* Mobil: "31.", "oktober" og "2026" på hver sin linje (centreret via .tickets-home) */
+.tickets-home h2 .date-part {
+  display: block;
+}
+
 .tickets-heading {
   margin: clamp(3.5rem, 7vw, 7rem) auto 2rem;
 }
@@ -928,7 +972,7 @@ body.menu-open .hero-thread {
 
 .tickets-heading p {
   margin: 0;
-  color: var(--muted);
+  color: var(--white);
 }
 
 .ticket-card {
@@ -1572,7 +1616,8 @@ body.menu-open .hero-thread {
 /* === Footer === */
 
 .site-footer {
-  padding: 4rem 0 1.5rem;
+  /* Mobil: 20 px padding i siderne (oven i containerens margen) */
+  padding: 4rem 20px 1.5rem;
   background: var(--black);
 }
 
@@ -1651,11 +1696,114 @@ body.menu-open .hero-thread {
 }
 
 
+/* === Responsive: up to 699px (phone layout) === */
+
+/*
+  Rettelser der kun gælder mobil (forsiden). Fra 700 px er layoutet et andet, så de ligger her i stedet for som basisregler.
+*/
+@media (max-width: 699px) {
+  /*
+    Afstand mellem sektionerne: hero → "Om festen" og "Om festen" → "Dresscode" er ens (96 px, målt fra sidste tekst/knap til eyebrow).
+    Alt nederst i Om festen nulstilles, så kun sektionernes eget topmellemrum (6rem) er tilbage.
+  */
+  .home-about-section {
+    padding-top: 6rem;
+    padding-bottom: 0;
+  }
+
+  .dresscode-preview {
+    padding-top: 6rem;
+  }
+
+  .home-about-section .card-scroller {
+    padding-bottom: 0;
+  }
+
+  .home-about-section .image-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /*
+    Dresscode-preview: tekst først, så galleri, så knap.
+    Tekst-containeren "pakkes ud" (display: contents), så knappen bliver et eget grid-element
+    efter galleriet. Fra 700 px er der to kolonner (galleri | tekst + knap).
+  */
+  .dresscode-preview .split {
+    row-gap: 0;
+  }
+
+  .dresscode-preview .split > div:not(.portrait-grid) {
+    display: contents;
+  }
+
+  /* Ingen streg under den sidste linje (Accessories), da galleriet følger lige efter */
+  .dresscode-preview .accent-list li:last-child {
+    border-bottom: 0;
+  }
+
+  /* Margener kollapser ikke i grid: 2rem (liste) − 1.35rem (afsnit) giver samme afstand som før */
+  .dresscode-preview .accent-list {
+    margin-top: .65rem;
+  }
+
+  .dresscode-preview .portrait-grid {
+    order: 1;
+  }
+
+  .dresscode-preview .split .button {
+    order: 2;
+    justify-self: center;
+  }
+
+  /* Ticket-sektion: lidt større linjeafstand i datoen (31. / oktober / 2026) */
+  .tickets-home h2 {
+    line-height: 1.05;
+  }
+
+  /* Sidepadding, så "hele natten." kommer ned på næste linje (se også uadskilleligt mellemrum i index.html) */
+  .tickets-heading p {
+    padding-inline: 2rem;
+  }
+
+  /* Baggrundsbilledet i samme skala som på desktop (1440 px bredt), placeret i øverste højre hjørne */
+  .tickets-home .tickets-overlay {
+    background-size: 1440px auto;
+    background-position: right top;
+  }
+}
+
+
 /* === Responsive: 700px and up === */
 
 @media (min-width: 700px) {
   .container {
     width: min(100% - 3rem, var(--container));
+  }
+
+  .hero-title-line {
+    font-size: inherit;
+  }
+
+  .button-row {
+    flex-wrap: wrap;
+    gap: 1.7rem;
+  }
+
+  .button-row .button {
+    flex: 0 1 auto;
+    padding-inline: 1.5rem;
+  }
+
+  .button-row .button-secondary {
+    padding-inline: 38px;
+  }
+
+  .tickets-home h2 .date-part {
+    display: inline;
+  }
+
+  .site-footer {
+    padding-inline: 0;
   }
 
   .event-facts-hero {
@@ -1774,6 +1922,7 @@ body.menu-open .hero-thread {
   .site-header {
     height: 96px;
     padding-inline: var(--header-pad-x);
+    background: var(--black);
   }
 
   .menu-toggle {
@@ -1810,6 +1959,7 @@ body.menu-open .hero-thread {
     gap: 10px;
     margin-left: .8rem;
     color: var(--black);
+    font-size: 1rem;
     line-height: 20px;
   }
 
@@ -1827,8 +1977,8 @@ body.menu-open .hero-thread {
 
   /* Home page load animation: desktop values (design frame 1440 px) */
   .home-hero {
-    --hero-image-start: translate(calc(-3.63% / 1.1198), 0);
-    --hero-image-end: translate(calc(-2.93% / 1.1198), calc(-1.4% / 1.1421));
+    /* Fast placering: øjnene sidder ved "HorrorHouse"-teksten (ca. x 733, y 393 ved 1440 px). Billedet er zoomet så meget (se .hero-image), at det dækker heroen helt til toppen */
+    --hero-image-offset: translate(-8.6%, -.28%);
     --hero-overlay-end: .68;
     /* Tråden hænger 2 px under header-CTA'en og midt for den (knappens bund ligger 20 px over heroen) */
     --thread-top: -18px;
@@ -1867,8 +2017,8 @@ body.menu-open .hero-thread {
   }
 
   .hero-image {
-    width: 111.98%;
-    height: 114.21%;
+    width: 121.36%;
+    height: 123.46%;
   }
 
   .decor-layer {
@@ -1928,6 +2078,11 @@ body.menu-open .hero-thread {
     gap: clamp(1.5rem, 4vw, 58px);
   }
 
+  /* Mindre mellemrum mellem "Om festen" og "Dresscode": nederste padding i Om festen er halveret */
+  .home-about-section {
+    padding-bottom: calc(var(--space-section) / 2);
+  }
+
   .image-card,
   .look-card,
   .ticket-card {
@@ -1941,6 +2096,10 @@ body.menu-open .hero-thread {
 
   .look-card img {
     height: 520px;
+  }
+
+  .cta-band-desktop-only {
+    display: block;
   }
 
   .cta-inner {
@@ -1999,6 +2158,10 @@ body.menu-open .hero-thread {
     padding-inline: .65rem;
   }
 
+  .home-hero {
+    --thread-right: calc(.65rem + 22px - 20px - .5px); /* følger header-padding, så tråden stadig er midt under burgerikonet */
+  }
+
   .brand {
     font-size: 1.35rem;
   }
@@ -2047,7 +2210,6 @@ body.menu-open .hero-thread {
   }
 
   /* Home page load animation: show the END state immediately */
-  .hero-image,
   .hero-overlay,
   .web,
   .hero-thread,

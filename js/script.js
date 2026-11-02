@@ -35,6 +35,13 @@ if (menuButton && primaryNavigation) {
     if (event.target.closest("a")) closeMenu();
   });
 
+  // Et tryk på selve headeren (ikke logoet, burgerknappen eller menuen) lukker den åbne menu
+  menuButton.closest(".site-header").addEventListener("click", (event) => {
+    if (menuButton.getAttribute("aria-expanded") !== "true") return;
+    if (event.target.closest(".brand, .menu-toggle, .site-nav")) return;
+    closeMenu({ returnFocus: true });
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
       closeMenu({ returnFocus: true });
