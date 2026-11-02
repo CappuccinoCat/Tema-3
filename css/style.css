@@ -1181,10 +1181,9 @@ body.menu-open .hero-thread {
   margin: 0;
 }
 
-/* Ikon til venstre, tydeligt label (dt) over værdien (dd), og en streg mellem hver oplysning */
+/* Tydeligt label (dt) over værdien (dd), og en streg mellem hver oplysning */
 .invitation-details > div {
-  position: relative;
-  padding: 1rem 0 1rem 3.25rem;
+  padding: 1rem 0;
   border-top: 1px solid var(--gray-2);
 }
 
@@ -1203,16 +1202,6 @@ body.menu-open .hero-thread {
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.3;
-}
-
-.invitation-details .icon {
-  position: absolute;
-  top: 50%;
-  left: .25rem;
-  width: 28px;
-  height: 28px;
-  transform: translateY(-50%);
-  color: var(--yellow);
 }
 
 .numbered > div > span,
@@ -2174,6 +2163,22 @@ body.menu-open .hero-thread {
     height: 520px;
   }
 
+  /* Om festen: invitationsboksen er smallere end kolonnen og flugter med containerens højre kant */
+  .invitation {
+    width: 100%; /* uden width krymper justify-self: end boksen til indholdets bredde */
+    max-width: 440px;
+    justify-self: end;
+  }
+
+  /* Dresscode "Find dit look": tal og tag hører sammen, titel og beskrivelse hører sammen – med luft imellem de to grupper */
+  .look-card b {
+    margin: .3rem 0 1.25rem;
+  }
+
+  .look-card h3 {
+    margin-bottom: .5rem;
+  }
+
   .cta-band-desktop-only {
     display: block;
   }
@@ -2310,6 +2315,31 @@ body.menu-open .hero-thread {
 
   .dresscode-hero .hero-overlay {
     background: var(--hero-tint);
+  }
+
+  .dresscode-hero h1 {
+    color: var(--white);
+  }
+
+  /*
+    Dresscode "Sådan sammensætter du et look": overskrift og tekst løftes ud over begge kolonner (så titlen kan stå på én linje),
+    og trinene centreres lodret ud for billedet. Wrapperen er kun layout, så den fjernes fra gridet.
+  */
+  .styling-section .split > div:first-child {
+    display: contents;
+  }
+
+  .styling-section .split {
+    row-gap: 0;
+  }
+
+  .styling-section .split > div > h2,
+  .styling-section .split > div > p {
+    grid-column: 1 / -1;
+  }
+
+  .styling-section .split > div > p {
+    max-width: 600px;
   }
 
   .ticket-grid-detailed {
