@@ -2,7 +2,7 @@
 
 const menuButton = document.querySelector(".menu-toggle");
 const primaryNavigation = document.querySelector(".site-nav");
-const menuBackgroundContent = document.querySelectorAll(".skip-link, main, .site-footer, .falling-spider");
+const menuBackgroundContent = document.querySelectorAll(".skip-link, main, .site-footer");
 
 function setMenuBackgroundInert(isInert) {
   menuBackgroundContent.forEach((element) => {
