@@ -959,7 +959,7 @@ body.menu-open .hero-thread {
 }
 
 .tickets-home .tickets-overlay {
-  background: url("../assets/images/home/home-16.png") center/cover no-repeat;
+  background: url("../assets/images/home/home-16.webp") center/cover no-repeat;
   opacity: 20%;
   z-index: -1;
 }
@@ -1129,7 +1129,7 @@ body.menu-open .hero-thread {
 }
 
 .about-hero {
-  background-image: url("../assets/images/about/about-02.jpg");
+  background-image: url("../assets/images/about/about-02.webp");
   background-position: center;
 }
 
@@ -1293,7 +1293,7 @@ body.menu-open .hero-thread {
 
 .dresscode-hero {
   background-color: var(--black);
-  background-image: url("../assets/images/dresscode/dresscode-05.png");
+  background-image: url("../assets/images/dresscode/dresscode-05.webp");
   background-position: center top;
 }
 
@@ -1418,7 +1418,7 @@ body.menu-open .hero-thread {
 
 .signup-hero {
   min-height: 400px; /* mobilbilledet er 402 × 400 px */
-  background-image: url("../assets/images/signup/hero-mobile-signup.png");
+  background-image: url("../assets/images/signup/hero-mobile-signup.webp");
   display: flex;
   align-items: center;
   padding: 3rem 0;
@@ -1463,7 +1463,7 @@ body.menu-open .hero-thread {
 .signup-section {
   position: relative;
   isolation: isolate;
-  background: url("../assets/images/signup/signup-mobile.png") center/cover no-repeat;
+  background: url("../assets/images/signup/signup-mobile.webp") center/cover no-repeat;
 }
 
 /* Samme princip som herotet: billedet har 66 % styrke oven på --black, ingen mørk overlay */
@@ -1629,7 +1629,7 @@ body.menu-open .hero-thread {
 
 .contact-hero {
   min-height: 400px; /* mobilbilledet er 402 × 400 px */
-  background-image: url("../assets/images/signup/hero-mobile-signup.png");
+  background-image: url("../assets/images/signup/hero-mobile-signup.webp");
   display: flex;
   align-items: center;
   padding: 4rem 0;
@@ -2324,13 +2324,13 @@ body.menu-open .hero-thread {
   /* Tilmelding: lavere hero end forsidens. Billedet er centreret og beskåret oppe og nede; 620 px er valgt, så hele månen er med. */
   .signup-hero {
     min-height: 620px;
-    background-image: url("../assets/images/signup/signup-07.png");
+    background-image: url("../assets/images/signup/signup-07.webp");
     background-position: center;
   }
 
   /* Tilmelding: desktop-billedet til formularsektionen (mobil bruger hero-mobile-signup.png og signup-mobile.png) */
   .signup-section {
-    background-image: url("../assets/images/signup/signup-01.png");
+    background-image: url("../assets/images/signup/signup-01.webp");
   }
 
   /*
@@ -2339,7 +2339,7 @@ body.menu-open .hero-thread {
   */
   .contact-hero {
     min-height: 392px;
-    background-image: url("../assets/images/contact/contact-02.png");
+    background-image: url("../assets/images/contact/contact-02.webp");
     background-position: center 68%;
   }
 
@@ -2364,7 +2364,7 @@ body.menu-open .hero-thread {
   */
   .about-hero {
     background-color: var(--gray);
-    background-image: url("../assets/images/about/about-02.jpg"), var(--hero-tint);
+    background-image: url("../assets/images/about/about-02.webp"), var(--hero-tint);
     background-position: right top, 0 0;
     background-size: auto 100%, 100% 100%;
   }
@@ -2426,7 +2426,7 @@ body.menu-open .hero-thread {
 
   .dresscode-hero {
     background-color: var(--gray);
-    background-image: url("../assets/images/dresscode/dresscode-05.png");
+    background-image: url("../assets/images/dresscode/dresscode-05.webp");
     background-position: right top;
     background-size: auto 100%;
   }
