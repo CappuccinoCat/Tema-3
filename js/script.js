@@ -2,6 +2,13 @@
 
 const menuButton = document.querySelector(".menu-toggle");
 const primaryNavigation = document.querySelector(".site-nav");
+const menuBackgroundContent = document.querySelectorAll(".skip-link, main, .site-footer, .falling-spider");
+
+function setMenuBackgroundInert(isInert) {
+  menuBackgroundContent.forEach((element) => {
+    element.inert = isInert;
+  });
+}
 
 function closeMenu({ returnFocus = false } = {}) {
   if (!menuButton || !primaryNavigation) return;
@@ -9,6 +16,7 @@ function closeMenu({ returnFocus = false } = {}) {
   menuButton.setAttribute("aria-expanded", "false");
   menuButton.querySelector(".sr-only").textContent = "Åbn menu";
   document.body.classList.remove("menu-open");
+  setMenuBackgroundInert(false);
   if (returnFocus) menuButton.focus();
 }
 
@@ -19,6 +27,7 @@ if (menuButton && primaryNavigation) {
     menuButton.querySelector(".sr-only").textContent = willOpen ? "Luk menu" : "Åbn menu";
     primaryNavigation.classList.toggle("is-open", willOpen);
     document.body.classList.toggle("menu-open", willOpen);
+    setMenuBackgroundInert(willOpen);
     if (willOpen) primaryNavigation.querySelector("a")?.focus();
   });
 
@@ -50,12 +59,17 @@ if (menuButton && primaryNavigation) {
   });
 }
 
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
 document.querySelectorAll(".card-scroller, .ticket-grid[tabindex]").forEach((scroller) => {
   scroller.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
     const direction = event.key === "ArrowRight" ? 1 : -1;
-    scroller.scrollBy({ left: direction * scroller.clientWidth * 0.8, behavior: "smooth" });
+    scroller.scrollBy({
+      left: direction * scroller.clientWidth * 0.8,
+      behavior: reducedMotionQuery.matches ? "auto" : "smooth"
+    });
   });
 });
 
@@ -174,6 +188,7 @@ const contactSuccess = document.getElementById("contact-success");
 
 contactForm?.addEventListener("submit", (event) => {
   event.preventDefault();
+  contactSuccess.hidden = true;
   if (!validateForm(contactForm)) return;
   contactSuccess.hidden = false;
   contactSuccess.focus();
