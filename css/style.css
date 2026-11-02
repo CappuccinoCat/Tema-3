@@ -325,6 +325,22 @@ body.menu-open .site-header {
   display: flex;
 }
 
+/* Menuen er en liste: ul bærer det flex-layout, som .site-nav havde før, og li strækker linket til fuld bredde */
+.site-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 65px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav li {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Mobilmenu: centrerede links på 36 px uden streger imellem */
 .site-nav a {
   padding: 0;
@@ -1291,8 +1307,13 @@ body.menu-open .hero-thread {
   margin-bottom: 0;
 }
 
-.dresscode-hero h2 {
+/* Underrubrikken er et afsnit (ikke en overskrift), men ser ud som den tidligere h2 */
+.dresscode-hero .page-hero-content > p.hero-subtitle {
+  max-width: none;
+  font-family: Caudex, serif;
   font-size: clamp(1.7rem, 4vw, 3rem);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
 }
 
 .swatches {
@@ -1668,6 +1689,11 @@ body.menu-open .hero-thread {
   font-weight: 600;
 }
 
+.faq-list summary h3 {
+  margin: 0;
+  font: inherit;
+}
+
 .faq-list summary::-webkit-details-marker {
   display: none;
 }
@@ -1757,6 +1783,20 @@ body.menu-open .hero-thread {
   display: flex;
   flex-direction: column;
   gap: .9rem;
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav li {
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-nav a,
@@ -2048,6 +2088,12 @@ body.menu-open .hero-thread {
     align-items: center;
     gap: .7rem;
     overflow: visible;
+  }
+
+  .site-nav ul {
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
   }
 
   .site-nav a {
@@ -2431,6 +2477,14 @@ body.menu-open .hero-thread {
 @media (max-width: 374px) {
   .container {
     width: min(100% - 1.25rem, var(--container));
+  }
+
+  /* Scrollerne går ud i containerens margen: den negative margin skal følge den smallere margen (.625rem), ellers bliver siden for bred */
+  .card-scroller,
+  .ticket-grid {
+    margin-inline: -.625rem;
+    padding-inline: .625rem;
+    scroll-padding-inline: .625rem;
   }
 
   .site-header {
