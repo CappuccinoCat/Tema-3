@@ -1819,6 +1819,34 @@ body.menu-open .hero-thread {
     background-size: 1440px auto;
     background-position: right top;
   }
+
+  /* Hero-intro: lidt luft til højre, så teksten ikke løber helt ud til skærmkanten */
+  .about-hero .page-hero-content > p:not(.eyebrow):not(.hero-meta) {
+    padding-right: 1.5rem;
+  }
+
+  /* "Det venter dig": korttekst flugter med billedets venstrekant (som på desktop) i stedet for at stå indrykket */
+  .image-card.numbered {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .image-card.numbered img {
+    border-radius: var(--radius);
+  }
+
+  .image-card.numbered > div {
+    padding: 1rem 0 0;
+  }
+
+  /* "Aftenens forløb": tidslinjen rykkes lidt ind fra skærmkanten */
+  .timeline {
+    margin-left: 1rem;
+  }
+
+  .timeline li {
+    padding-left: 1.5rem;
+  }
 }
 
 
