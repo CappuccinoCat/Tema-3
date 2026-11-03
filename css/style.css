@@ -1,262 +1,2553 @@
-@font-face{font-family:"Pirata One";src:url("../assets/fonts/pirata-one-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:Caudex;src:url("../assets/fonts/caudex-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:Caudex;src:url("../assets/fonts/caudex-bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"DM Sans";src:url("../assets/fonts/dm-sans-regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"DM Sans";src:url("../assets/fonts/dm-sans-semibold.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"DM Sans";src:url("../assets/fonts/dm-sans-bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:"DM Sans";src:url("../assets/fonts/dm-sans-extrabold.ttf") format("truetype");font-weight:800;font-style:normal;font-display:swap}
+/* === Fonts === */
 
-:root{--black:#0d0d11;--gray:#282835;--gray-2:#494953;--muted:#a7a7a7;--white:#fff;--yellow:#effe00;--blue:#4da3ff;--error:#ff8278;--radius:10px;--container:1180px;--space-section:clamp(4.5rem,8vw,8rem)}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--black);color:var(--white);font-family:"DM Sans",sans-serif;font-size:1.0625rem;line-height:1.45;overflow-x:hidden}
-body.menu-open{overflow:hidden}
-img{display:block;max-width:100%;height:auto}
-a{color:inherit;text-underline-offset:.2em}
-button,input,select,textarea{font:inherit}
-button{color:inherit}
-h1,h2,h3,p{margin-top:0}
-h1,h2,h3{font-family:Caudex,serif;line-height:1.08}
-h1{font-size:clamp(3rem,8vw,6rem);margin-bottom:1.4rem}
-h2{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:1.25rem}
-h3{font-size:clamp(1.35rem,2.5vw,2rem);margin-bottom:.75rem}
-p{margin-bottom:1.35rem}
-.pirata{font-family:"Pirata One",serif;font-weight:400}
-.container{width:min(100% - 2rem,var(--container));margin-inline:auto}
-.section{padding-block:var(--space-section);background:var(--black)}
-.section-gray{background:var(--gray)}
-.section-dark{background:#16161d}
-.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;white-space:nowrap;border:0}
-.skip-link{position:fixed;z-index:1000;top:.75rem;left:.75rem;padding:.8rem 1rem;background:var(--yellow);color:var(--black);font-weight:800;transform:translateY(-180%)}
-.skip-link:focus{transform:none}
-:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
-
-.site-header{height:70px;padding:0 1rem;background:var(--black);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:100}
-.brand{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;font:400 1.6rem/1 "Pirata One",serif;white-space:nowrap}
-.brand-mark{color:var(--yellow);font-family:system-ui,sans-serif;font-size:1.25em;line-height:1}
-.brand-mark-dark{color:var(--black)}
-.menu-toggle{width:44px;height:44px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer}
-.menu-toggle>span[aria-hidden]{width:26px;height:18px;position:relative;border-top:2px solid var(--white);border-bottom:2px solid var(--white)}
-.menu-toggle>span[aria-hidden]::after{content:"";position:absolute;left:0;right:0;top:6px;border-top:2px solid var(--white)}
-.menu-toggle[aria-expanded="true"]>span[aria-hidden]{border:0}
-.menu-toggle[aria-expanded="true"]>span[aria-hidden]::before,.menu-toggle[aria-expanded="true"]>span[aria-hidden]::after{content:"";position:absolute;inset:auto 0;top:8px;border-top:2px solid var(--white);transform:rotate(45deg)}
-.menu-toggle[aria-expanded="true"]>span[aria-hidden]::after{transform:rotate(-45deg)}
-.site-nav{display:none;position:fixed;inset:70px 0 0;background:var(--black);padding:3rem 1.25rem;flex-direction:column;align-items:stretch;gap:.5rem;overflow:auto}
-.site-nav.is-open{display:flex}
-.site-nav a{padding:1rem;border-bottom:1px solid var(--gray-2);text-decoration:none;font-size:1.25rem;font-weight:600}
-.site-nav a[aria-current="page"]{color:var(--blue);text-decoration:underline;text-decoration-thickness:2px}
-.site-nav a:not(.button):hover,.text-link:hover,.footer-contact a:hover,.footer-nav a:hover{color:var(--blue)}
-.site-nav .button[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:var(--black);text-decoration:none}
-
-.falling-spider{--spider-size:20px;--spider-start:24px;--spider-travel:167px;--thread-start:30px;--thread-end:201px;--spider-duration:5.2s;position:absolute;z-index:101;top:70px;right:0;width:var(--spider-size);height:221px;pointer-events:none}
-.falling-spider::before{content:"";position:absolute;top:0;left:50%;width:1px;height:var(--thread-start);background:rgba(232,232,232,.75);transform:translateX(-50%);transform-origin:top;animation-name:spider-thread-fall;animation-duration:var(--spider-duration);animation-timing-function:ease-in-out;animation-iteration-count:1;animation-fill-mode:forwards;will-change:height}
-.falling-spider img{position:absolute;z-index:1;top:var(--spider-start);left:0;width:100%;height:auto;animation-name:spider-fall;animation-duration:var(--spider-duration);animation-timing-function:ease-in-out;animation-iteration-count:1;animation-fill-mode:forwards;will-change:transform}
-@keyframes spider-fall{from{transform:translateY(0)}to{transform:translateY(var(--spider-travel))}}
-@keyframes spider-thread-fall{from{height:var(--thread-start)}to{height:var(--thread-end)}}
-
-.button{min-height:52px;display:inline-flex;align-items:center;justify-content:center;gap:.65rem;padding:.9rem 1.5rem;border:2px solid var(--yellow);border-radius:8px;background:var(--yellow);color:var(--black);font-weight:700;text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,transform .2s}
-.button:hover{background:var(--blue);border-color:var(--blue);color:var(--black)}
-.button:active{transform:translateY(1px)}
-.button-secondary{background:transparent;color:var(--white);border-color:var(--white)}
-.button-secondary:hover{background:var(--blue);border-color:var(--blue);color:var(--black)}
-.button-dark{background:var(--black);border-color:var(--black);color:var(--white)}
-.button-dark:hover{background:var(--blue);border-color:var(--blue);color:var(--black)}
-.cta-band :focus-visible{outline-color:var(--black)}
-.button-small{min-height:46px;padding:.7rem 1.25rem}
-.button-row{display:flex;flex-wrap:wrap;gap:.9rem}
-.text-link{display:inline-block;font-weight:700;color:var(--yellow);margin-top:.5rem}
-.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;font-weight:800;color:var(--yellow);margin-bottom:1rem}
-.hero-overlay,.tickets-overlay,.signup-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,13,17,.95),rgba(13,13,17,.55))}
-
-.hero-dark,.page-hero,.signup-hero,.contact-hero{position:relative;isolation:isolate;background-repeat:no-repeat;background-size:cover;background-position:center}
-.home-hero{min-height:760px;background-image:url("../assets/images/home/home-20.png");display:flex;align-items:center;padding-block:4rem}
-.hero-content,.page-hero-content,.signup-hero>.container,.contact-hero>.container{position:relative;z-index:1}
-.home-hero h1{max-width:850px}
-.hero-lead{max-width:620px;font-size:1.15rem}
-.event-facts{display:grid;margin:2rem 0;padding:0}
-.event-facts>div{padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.28)}
-.event-facts dt{color:var(--muted);font-size:.85rem;text-transform:uppercase;font-weight:800;letter-spacing:.09em}
-.event-facts dd{margin:.25rem 0 0;font-weight:700;font-size:1.1rem}
-.event-facts-hero{grid-template-columns:repeat(2,1fr);max-width:700px;gap:0 1rem}
-
-.card-scroller,.ticket-grid{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.25rem 1rem 1.25rem;margin-inline:-1rem;scrollbar-color:var(--yellow) var(--gray)}
-.ticket-grid{padding-top:1.25rem}
-.image-card,.look-card,.ticket-card{flex:0 0 min(84vw,330px);scroll-snap-align:start;border-radius:var(--radius);overflow:hidden;background:var(--gray)}
-.image-card img{width:100%;height:420px;object-fit:cover}
-.image-card>div,.look-card>div{padding:1.4rem}
-.image-card p,.look-card p{color:#dedee1}
-.home-about-section{background:var(--black)}
-.home-about-intro{max-width:720px;margin-bottom:3rem}
-.home-about-section .image-card{background:transparent;border-radius:0}
-.home-about-section .image-card>div{padding:1rem 0 0}
-.feature-image{width:100%;max-height:520px;object-fit:cover;border-radius:var(--radius);margin-top:2rem}
-.portrait-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-bottom:2rem}
-.portrait-grid img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;border-radius:8px}
-.portrait-grid img:nth-child(3){object-position:center}
-.accent-list{padding:0;list-style:none;margin:2rem 0}
-.accent-list li{position:relative;padding:.8rem 0 .8rem 1.6rem;border-bottom:1px solid var(--gray-2)}
-.accent-list li::before{content:"";position:absolute;left:0;top:1.25rem;width:.55rem;height:.55rem;background:var(--yellow);transform:rotate(45deg)}
-.cta-band{background:var(--yellow);color:var(--black);padding:3.5rem 0;text-align:center}
-.cta-inner{display:flex;flex-direction:column;align-items:center;gap:1rem}
-.cta-inner h2{max-width:780px;margin-bottom:.35rem}
-.cta-inner p{margin-bottom:.5rem}
-.tickets-home{position:relative;isolation:isolate;background:url("../assets/images/home/home-16.png") center/cover no-repeat;text-align:center}
-.tickets-home .tickets-overlay{background:rgba(13,13,17,.72);z-index:-1}
-.tickets-content{position:relative}
-.tickets-home h2{font:400 clamp(4.2rem,12vw,11.25rem)/.9 "Pirata One",serif;text-transform:uppercase;letter-spacing:.015em;margin:3rem 0 2rem}
-.display-number{font:inherit;color:inherit}
-.tickets-heading{margin:clamp(3.5rem,7vw,7rem) auto 2rem}
-.tickets-heading h3{font-size:clamp(2rem,4vw,3rem);margin-bottom:.75rem}
-.tickets-heading p{margin:0;color:var(--muted)}
-.ticket-card{display:flex;flex-direction:column;text-align:left;padding:1.5rem;border:1px solid var(--gray-2);position:relative;overflow:visible}
-.ticket-card.featured{border:1px solid var(--gray-2)}
-.ticket-card.sold-out{opacity:.75}
-.ticket-status{order:10;margin:auto 0 0;padding-top:1.5rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--yellow)}
-.sold-out .ticket-status{color:var(--white);text-decoration:line-through}
-.price{font:700 2rem/1 Caudex,serif;color:var(--white)}
-.badge{position:absolute;top:-.8rem;left:50%;transform:translateX(-50%);background:var(--blue);color:var(--black);font-size:.75rem;font-weight:800;text-transform:uppercase;padding:.35rem .7rem;border-radius:99px}
-.small-note{color:var(--muted);font-size:.95rem}
-.event-facts-bottom{max-width:218px;margin:0 auto;text-align:center;grid-template-columns:1fr;gap:0}
-.event-facts-bottom>div{display:flex;min-height:123px;flex-direction:column;align-items:center;justify-content:center;border-bottom:0;gap:.15rem}
-.event-facts-bottom dt{display:flex;flex-direction:column;align-items:center;gap:.4rem}
-.event-facts-bottom img{width:24px;height:24px;object-fit:contain;margin-bottom:.25rem}
-.tickets-content>.button{margin-top:clamp(3rem,6vw,5rem)}
-
-.page-hero{min-height:700px;display:flex;align-items:center;padding:5rem 0}
-.page-hero-content{max-width:860px}
-.page-hero-content>p:not(.eyebrow):not(.hero-meta){max-width:700px;font-size:1.15rem}
-.about-hero{background-image:url("../assets/images/about/about-02.jpg");background-position:center}
-.about-hero .hero-overlay{background:linear-gradient(90deg,rgba(13,13,17,.92),rgba(13,13,17,.45))}
-.date-lockup{margin-top:2rem;display:flex;align-items:center;gap:1rem}
-.date-lockup span{font:400 6rem/1 "Pirata One",serif;color:var(--yellow)}
-.date-lockup strong{text-transform:uppercase;letter-spacing:.12em}
-.hero-meta{text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-top:1.4rem}
-.hero-meta span{color:var(--yellow);padding-inline:.45rem}
-.split{display:grid;gap:2rem;align-items:center}
-.invitation{background:var(--gray);border-left:5px solid var(--yellow);border-radius:var(--radius);padding:2rem}
-.invitation h3{text-transform:uppercase;font:800 .85rem/1.3 "DM Sans",sans-serif;letter-spacing:.12em;color:var(--yellow)}
-.numbered>div>span,.look-card>div>span,.style-steps>li>span{font:400 2rem/1 "Pirata One",serif;color:var(--yellow)}
-.numbered b,.look-card b{display:block;text-transform:uppercase;font-size:.75rem;letter-spacing:.12em;color:var(--yellow);margin-top:1rem}
-.timeline{list-style:none;padding:0;margin:3rem 0}
-.timeline li{position:relative;display:grid;grid-template-columns:1fr;gap:.7rem;padding:0 0 2.5rem 2rem;border-left:1px solid var(--gray-2)}
-.timeline li::before{content:"";position:absolute;left:-.5rem;top:.1rem;width:.9rem;height:.9rem;border:3px solid var(--yellow);background:var(--black);border-radius:50%}
-.timeline time,.timeline-time{text-transform:uppercase;font-weight:800;font-size:.8rem;letter-spacing:.09em;color:var(--yellow)}
-.timeline h3{margin-bottom:.3rem}
-.timeline p{color:var(--muted);margin:0}
-.practical{border:1px solid var(--gray-2);padding:1.3rem;border-radius:var(--radius)}
-
-.dresscode-hero{background-color:var(--black);background-image:url("../assets/images/dresscode/dresscode-05.png");background-position:center top}
-.dresscode-hero .hero-overlay{background:linear-gradient(90deg,rgba(13,13,17,.98),rgba(13,13,17,.86) 48%,rgba(13,13,17,.72))}
-.dresscode-hero h1{color:var(--yellow);font-size:clamp(5rem,15vw,10rem);margin-bottom:0}
-.dresscode-hero h2{font-size:clamp(1.7rem,4vw,3rem)}
-.swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-.swatches>div{display:grid;grid-template-columns:44px 1fr;grid-template-rows:1fr 1fr;column-gap:.7rem;align-items:center}
-.swatch{grid-row:1/3;width:44px;height:44px;border-radius:50%;border:1px solid var(--muted)}
-.swatch.black{background:#0d0d11}.swatch.charcoal{background:#36363e}.swatch.ivory{background:#f1eee3}.swatch.silver{background:#b8bbc0}
-.swatches strong{text-transform:uppercase;font-size:.8rem;letter-spacing:.08em}.swatches small{color:var(--muted)}
-.look-card{background:var(--black)}
-.look-card img{width:100%;height:430px;background:var(--gray);object-fit:cover;object-position:center top;border-radius:var(--radius) var(--radius) 0 0}
-.feature-image.tall{max-width:420px;max-height:600px}
-.style-steps{list-style:none;padding:0;margin:0}
-.style-steps li{display:grid;grid-template-columns:42px 1fr;gap:1rem;padding:1.4rem 0;border-bottom:1px solid var(--gray-2)}
-.style-steps h3{font-size:1.35rem;margin-bottom:.35rem}.style-steps p{color:var(--muted);margin:0}
-.center-note{max-width:760px;margin:3rem auto 0;text-align:center;color:var(--muted)}
-
-.signup-hero{min-height:580px;background-image:url("../assets/images/signup/signup-07.png");display:flex;align-items:center;padding:5rem 0}
-.signup-hero>.container{max-width:var(--container)}
-.signup-hero h1{max-width:700px}.signup-hero p:not(.eyebrow){max-width:650px}
-.ticket-grid-detailed .ticket-card{background:var(--gray)}
-.ticket-card ul{list-style:"✓  ";padding-left:1.25rem;color:#e7e7e9}.ticket-card li{margin:.7rem 0}.ticket-card li::marker{color:var(--yellow);font-weight:800}
-.signup-section{position:relative;isolation:isolate;background:url("../assets/images/signup/signup-01.png") center/cover no-repeat}
-.signup-overlay{background:rgba(13,13,17,.82);z-index:-1}
-.form-layout{display:grid;gap:2.5rem;align-items:start}
-.demo-notice{border-left:4px solid var(--yellow);padding:1rem;background:rgba(40,40,53,.9)}
-.styled-form{background:var(--gray);border-radius:var(--radius);padding:1.25rem;display:grid;gap:.4rem}
-.field{margin-bottom:.9rem}
-.field label{display:block;margin-bottom:.45rem;font-weight:700}
-.field input,.field select,.field textarea{width:100%;min-height:50px;padding:.8rem 1rem;color:var(--white);background:#22222c;border:1px solid #777783;border-radius:6px}
-.field textarea{min-height:190px;resize:vertical}
-.field input::placeholder,.field textarea::placeholder{color:#bdbdc4;opacity:1}
-.field select{display:block;max-width:100%;min-height:56px;appearance:auto;color-scheme:dark;font-size:1rem;line-height:1.4}
-.field select option{background:var(--white);color:var(--black);font-size:1rem}
-.field [aria-invalid="true"]{border:2px solid var(--error)}
-.field-error{min-height:1.25em;margin:.35rem 0 0;color:var(--error);font-size:.9rem;font-weight:700}
-.field-hint,.privacy-note{margin:.4rem 0 0;color:#d0d0d5;font-size:.9rem}
-.privacy-note{margin-bottom:1rem}.form-submit{width:100%}
-.confirmation-dialog{width:min(92vw,590px);padding:0;border:2px solid var(--yellow);border-radius:var(--radius);background:var(--black);color:var(--white)}
-.confirmation-dialog::backdrop{background:rgba(0,0,0,.8)}
-.dialog-inner{text-align:center;padding:clamp(2rem,6vw,4rem)}
-.dialog-inner .brand-mark{font-size:3rem}.dialog-inner h2{margin-top:1rem}.dialog-inner p{color:#ddd}
-
-.contact-hero{min-height:520px;background-image:url("../assets/images/contact/contact-02.png");display:flex;align-items:center;padding:4rem 0}
-.contact-hero h1{max-width:700px}.contact-hero p{max-width:610px}
-.contact-grid{display:grid;gap:1.5rem;align-items:stretch}
-.panel{height:100%;background:var(--gray);border-radius:var(--radius);padding:1.25rem}
-.form-success{padding:1rem;border:2px solid var(--yellow);background:var(--black);color:var(--white);font-weight:700}
-.faq-list details{border-bottom:1px solid #60606b}
-.faq-list summary{position:relative;list-style:none;cursor:pointer;padding:1.3rem 2.5rem 1.3rem 0;font-weight:600}
-.faq-list summary::-webkit-details-marker{display:none}
-.faq-list summary::after{content:"+";position:absolute;right:.4rem;top:1rem;font-size:1.5rem}
-.faq-list details[open] summary::after{content:"−"}
-.faq-list details p{padding:0 2.5rem 1.3rem 0;color:#dedee2}
-.faq-list details a{color:var(--yellow)}
-
-.site-footer{padding:4rem 0 1.5rem;background:var(--black)}
-.footer-grid{display:grid;gap:3rem;text-align:center}
-.footer-brand address{font-style:normal;margin-top:1rem;color:var(--white)}
-.footer-contact{display:flex;flex-direction:column;align-items:center;gap:1rem}.footer-contact>a{text-decoration:none}.instagram{display:flex;align-items:center;gap:.45rem;font-weight:700}.instagram img{width:24px;height:24px}
-.footer-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;text-align:left}
-.footer-nav h2{font:800 .75rem/1.2 "DM Sans",sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
-.footer-nav div{display:flex;flex-direction:column;gap:.9rem}.footer-nav a,.footer-nav span{font-size:.9rem;text-decoration:none}.footer-nav span{color:#e1e1e4}
-.copyright{text-align:center;color:var(--muted);font-size:.8rem;margin:3rem 0 0}
-
-@media (min-width:700px){
-  .container{width:min(100% - 3rem,var(--container))}
-  .event-facts-hero{grid-template-columns:repeat(4,1fr)}
-  .event-facts-bottom{max-width:720px;grid-template-columns:repeat(3,1fr);text-align:left;gap:0 1rem}
-  .event-facts-bottom>div{display:block;min-height:0}
-  .event-facts-bottom dt{flex-direction:row;align-items:center;gap:.45rem}
-  .event-facts-bottom img{margin:0}
-  .event-facts-bottom dd{margin-left:31px}
-  .event-facts>div{padding:1rem;border-right:1px solid rgba(255,255,255,.28);border-bottom:0}.event-facts>div:last-child{border-right:0}
-  .split{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(2rem,6vw,6rem)}
-  .portrait-grid{margin-bottom:0}
-  .timeline li{grid-template-columns:190px 1fr;padding-left:3rem}
-  .form-layout,.contact-grid{grid-template-columns:minmax(260px,.75fr) minmax(420px,1.25fr)}
-  .contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .styled-form,.panel{padding:2rem}
-  .footer-grid{grid-template-columns:.8fr 1.2fr;align-items:start;column-gap:2rem;row-gap:1.25rem;text-align:left}
-  .footer-brand{grid-column:1;grid-row:1}
-  .footer-contact{grid-column:1;grid-row:2;align-items:flex-start}
-  .footer-nav{grid-column:2;grid-row:1 / span 2}
+@font-face {
+  font-family: "Pirata One";
+  src: url("../assets/fonts/pirata-one-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (min-width:900px){
-  body{font-size:1.125rem}
-  .site-header{height:96px;padding-inline:max(2rem,calc((100vw - var(--container))/2))}
-  .menu-toggle{display:none}
-  .site-nav{display:flex;position:static;inset:auto;background:none;padding:0;flex-direction:row;align-items:center;gap:.7rem;overflow:visible}
-  .site-nav a{padding:.75rem 1rem;border:0;font-size:1rem}.site-nav a[aria-current="page"]{text-underline-offset:.45rem}
-  .site-nav .button{margin-left:.8rem;color:var(--black)}
-  .site-nav .button:hover,.site-nav .button[aria-current="page"]{background:var(--blue);border-color:var(--blue);color:var(--black);text-decoration:none}
-  .falling-spider{--spider-size:20px;--spider-start:8px;--spider-travel:295px;--thread-end:317px;top:96px;right:0;height:337px}
-  .home-hero{background-image:url("../assets/images/home/home-16.png");min-height:790px;background-position:center}
-  .card-scroller,.ticket-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;padding:.25rem;margin-inline:0;gap:1.5rem}
-  .image-card,.look-card,.ticket-card{min-width:0;max-width:none}
-  .image-card img{height:470px}
-  .look-card img{height:520px}
-  .cta-inner{flex-direction:row;justify-content:space-between;text-align:left}.cta-inner .brand-mark{font-size:2.5rem}
-  .page-hero{min-height:740px}
-  .about-hero{background-position:center 55%}
-  .dresscode-hero{background-color:var(--gray);background-image:url("../assets/images/dresscode/dresscode-05.png");background-position:right top;background-size:auto 100%}
-  .dresscode-hero .hero-overlay{background:linear-gradient(90deg,rgba(13,13,17,.98) 5%,rgba(13,13,17,.78) 48%,rgba(13,13,17,.15))}
-  .signup-hero{min-height:620px}
-  .ticket-grid-detailed{align-items:stretch}
-  .footer-grid{grid-template-columns:minmax(250px,.8fr) minmax(360px,1.2fr);column-gap:5rem;row-gap:1.25rem}
+@font-face {
+  font-family: Caudex;
+  src: url("../assets/fonts/caudex-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (min-width:1360px){.falling-spider{--spider-size:50px;right:2rem;height:367px}}
+@font-face {
+  font-family: Caudex;
+  src: url("../assets/fonts/caudex-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-@media (max-width:374px){.container{width:min(100% - 1.25rem,var(--container))}.site-header{padding-inline:.65rem}.brand{font-size:1.35rem}.event-facts-hero{grid-template-columns:1fr 1fr}.button{width:100%}.button-row{display:grid}.hero-meta{font-size:.78rem}.panel,.styled-form{padding:1rem}.footer-nav{gap:.5rem}}
+@font-face {
+  font-family: "DM Sans";
+  src: url("../assets/fonts/dm-sans-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.falling-spider::before{animation:none!important;height:var(--thread-end)}.falling-spider img{animation:none!important;transform:translateY(var(--spider-travel))}}
+@font-face {
+  font-family: "DM Sans";
+  src: url("../assets/fonts/dm-sans-semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../assets/fonts/dm-sans-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("../assets/fonts/dm-sans-extrabold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* === Variables, reset and base styles === */
+
+:root {
+  --black: #0d0d11;
+  --gray: #282835;
+  --gray-2: #494953;
+  --muted: #a7a7a7;
+  --white: #fff;
+  --yellow: #effe00;
+  --blue: #4da3ff;
+  --error: #ff8278;
+  --radius: 10px;
+  --container: 1280px; /* Figma: 1440 px frame med 80 px sidemargen */
+  --header-pad-x: max(2rem, calc((100vw - var(--container)) / 2)); /* header: afstand til sidekant (desktop) */
+  --nav-cta-width: 186px; /* header-CTA (Figma: 186 × 56 px). Bruges også til at centrere edderkoppetråden under knappen */
+  --space-section: clamp(4.5rem, 8vw, 8rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: .2em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Caudex, serif;
+  line-height: 1.08;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  margin-bottom: 1.4rem;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  margin-bottom: .75rem;
+}
+
+p {
+  margin-bottom: 1.35rem;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon--lg { width: 30px; height: 30px; } /* pilen i CTA-knappen */
+.icon--xl { width: 78px; height: 78px; } /* advarselstrekanten */
+
+.pirata {
+  font-family: "Pirata One", serif;
+  font-weight: 400;
+}
+
+.container {
+  width: min(100% - 2rem, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--space-section);
+  background: var(--black);
+}
+
+.section-gray {
+  background: var(--gray);
+}
+
+.section-dark {
+  background: #16161d;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: .75rem;
+  left: .75rem;
+  padding: .8rem 1rem;
+  border-radius: var(--radius);
+  background: var(--yellow);
+  color: var(--black);
+  font-weight: 800;
+  transform: translateY(-180%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+
+/* === Header and navigation === */
+
+.site-header {
+  height: 70px;
+  padding: 0 1rem;
+  /* Mobil: gennemsigtig, så spindelvæven på forsiden går helt op til toppen af siden */
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 100;
+}
+
+/* Åben menu: headeren dækker spindelvæven igen og får en grå streg i hele sidens bredde.
+   padding-top (1 px) udligner stregen, så logo og burger ikke flytter sig. */
+body.menu-open .site-header {
+  background: var(--black);
+  border-bottom: 1px solid var(--gray-2);
+  padding-top: 1px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  text-decoration: none;
+  font: 400 1.6rem/1 "Pirata One", serif;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  color: var(--yellow);
+  font-family: system-ui, sans-serif;
+  font-size: 1.25em;
+  line-height: 1;
+}
+
+.menu-toggle {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.menu-toggle > span[aria-hidden] {
+  width: 26px;
+  height: 18px;
+  position: relative;
+  border-top: 2px solid var(--white);
+  border-bottom: 2px solid var(--white);
+}
+
+.menu-toggle > span[aria-hidden]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  border-top: 2px solid var(--white);
+}
+
+.menu-toggle[aria-expanded="true"] > span[aria-hidden] {
+  border: 0;
+}
+
+.menu-toggle[aria-expanded="true"] > span[aria-hidden]::before,
+.menu-toggle[aria-expanded="true"] > span[aria-hidden]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0;
+  top: 8px;
+  border-top: 2px solid var(--white);
+  transform: rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] > span[aria-hidden]::after {
+  transform: rotate(-45deg);
+}
+
+.site-nav {
+  display: none;
+  position: fixed;
+  inset: 70px 0 0;
+  background: var(--black);
+  padding: 3rem 1.25rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 65px; /* Mobilmenu: 65 px mellem menupunkterne */
+  overflow: auto;
+}
+
+.site-nav.is-open {
+  display: flex;
+}
+
+/* Menuen er en liste: ul bærer det flex-layout, som .site-nav havde før, og li strækker linket til fuld bredde */
+.site-nav ul {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 65px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav li {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobilmenu: centrerede links på 36 px uden streger imellem */
+.site-nav a {
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+
+/* Tilmelding-knappen i mobilmenuen bevarer knapstørrelsen */
+.site-nav .button {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.site-nav a:not(.button):hover,
+.text-link:hover,
+.footer-contact a:hover,
+.footer-nav a:hover {
+  color: var(--blue);
+}
+
+.site-nav .button[aria-current="page"] {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--black);
+  text-decoration: none;
+}
+
+
+/* === Buttons, links and shared elements === */
+
+.button {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  padding: .9rem 1.5rem;
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius);
+  background: var(--yellow);
+  color: var(--black);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, transform .2s;
+}
+
+.button:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--black);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--yellow);
+  border-color: #effe0091;
+  padding: 0 38px;
+}
+
+.button-secondary:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--black);
+}
+
+.button-dark {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+
+.button-dark:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--black);
+}
+
+.cta-band :focus-visible {
+  outline-color: var(--black);
+}
+
+.button-small {
+  min-height: 46px;
+  padding: .7rem 1.25rem;
+}
+
+/* Mobil: to lige brede knapper side om side, der fylder indholdets bredde */
+.button-row {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.button-row .button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-inline: 1rem;
+}
+
+.text-link {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--yellow);
+  margin-top: .5rem;
+}
+
+.text-link .icon {
+  vertical-align: middle;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .8rem;
+  font-weight: 800;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+}
+
+.hero-overlay,
+.tickets-overlay,
+.signup-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(13, 13, 17, .95), rgba(13, 13, 17, .55));
+}
+
+
+/* === Home page: hero === */
+
+.hero-dark,
+.page-hero,
+.signup-hero,
+.contact-hero {
+  position: relative;
+  isolation: isolate;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-content,
+.page-hero-content,
+.signup-hero > .container,
+.contact-hero > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero h1 {
+  max-width: 850px;
+}
+
+/* Hero-titel (mobil): intro-linjen er lidt mindre end h1 (ca. 45 px ved 402 px), så "Du er udvalgt til" ikke bryder ned på en ny linje */
+.hero-title-line {
+  font-size: clamp(2.25rem, 11.2vw, 3rem);
+}
+
+/* "HorrorHouse" på egen linje, ca. 335 px bred ved 402 px skærmbredde */
+.hero-title-brand {
+  display: block;
+  font-size: clamp(3.5rem, 18.3vw, 8rem);
+}
+
+.hero-lead {
+  max-width: 620px;
+  font-size: 1.15rem;
+}
+
+.event-facts {
+  display: grid;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.event-facts > div {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .28);
+}
+
+.event-facts dt {
+  color: var(--muted);
+  font-size: .85rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: .09em;
+  line-height: 1.2;
+}
+
+.event-facts dd {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.event-facts-hero {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 700px;
+  gap: 0 1rem;
+}
+
+/* Ikon til venstre for label og værdi, lodret centreret ud for begge linjer */
+.event-facts-hero > div {
+  position: relative;
+}
+
+.event-facts-hero dt,
+.event-facts-hero dd {
+  padding-left: 2.15rem;
+}
+
+.event-facts-hero .icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+
+/* === Home page: hero image, spiderwebs and load animation === */
+
+/*
+  Load animation: START -> END (design frames: desktop 1440 px, mobile 402 px).
+  The normal styles below are the END state, so the page looks correct without
+  JavaScript and with reduced motion. The @keyframes only describe the START
+  state. Mobile-first: mobile values here, desktop values in the 900px query.
+  Timing is controlled by the --load-* variables.
+  The hero image itself does not move: it fades in from darkness (the overlay
+  lightens) and stays at --hero-image-offset.
+*/
+
+:root {
+  --load-fade-duration: 1.6s;
+  --load-fade-easing: ease-out;
+  --load-fall-duration: 2.2s;
+  --load-fall-easing: ease-in-out;
+}
+
+.home-hero {
+  --hero-image-height: 284px;
+  --hero-overlay-start: .9;
+  --hero-overlay-end: .60;
+  --thread-top: -20px;
+  /* Midt under burgerikonet: header-padding 1rem + halv knap 22 px − decor-layer 20 px − halv tråd .5 px */
+  --thread-right: calc(1rem + 22px - 20px - .5px);
+  --thread-start: 30px;
+  --thread-end: 201px;
+  --spider-size: 20px;
+  --spider-hang-start: 6px;
+  --spider-hang-end: 10px;
+  min-height: 760px;
+  display: flex;
+  align-items: flex-start;
+  /* Nederste padding er 0: afstanden fra knapperne til "Om festen" er kun sektionens eget topmellemrum (--space-section) */
+  padding-block: calc(var(--hero-image-height) + 1.25rem) 0;
+  /* No isolation: the layers below are ordered together with the neighbouring sections */
+  isolation: auto;
+}
+
+/* Layer order (bottom to top): image + overlay 0, webs 1, content 2, thread and spider 101 */
+.home-hero .hero-content {
+  z-index: 2;
+}
+
+/* The spiderwebs extend past the right page edge: clip them on the page wrapper, not on the hero */
+.home-main {
+  overflow-x: clip;
+}
+
+.home-about-section,
+.dresscode-preview {
+  position: relative;
+}
+
+.home-about-section > .container,
+.dresscode-preview > .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero image and overlay (mobile: banner above the text, desktop: whole hero) */
+.hero-media {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: var(--hero-image-height);
+  overflow: hidden;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  transform: var(--hero-image-offset, none);
+}
+
+.home-hero .hero-overlay {
+  background: var(--black);
+  opacity: var(--hero-overlay-end);
+  animation: hero-overlay-lighten var(--load-fade-duration) var(--load-fade-easing) backwards;
+}
+
+/* Layer matching the design's container: 20px inside the page edges on mobile */
+.decor-layer {
+  position: absolute;
+  inset: 0 20px;
+  pointer-events: none;
+}
+
+/* Spiderwebs: .web = rotated bounding box, .web-shape = rotated/flipped element, .web-image = image fill */
+.web {
+  position: absolute;
+  z-index: 1;
+  top: var(--web-top);
+  right: var(--web-right);
+  width: var(--web-width);
+  height: var(--web-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: web-fade-in var(--load-fade-duration) var(--load-fade-easing) backwards;
+}
+
+.web-shape {
+  position: relative;
+  flex: none;
+  width: var(--shape-width);
+  height: var(--shape-height);
+  overflow: hidden;
+  transform: var(--shape-transform);
+}
+
+.web-image {
+  position: absolute;
+  top: var(--image-top, 0);
+  left: .03%;
+  width: var(--image-width, 105.11%);
+  max-width: none;
+  height: var(--image-height, 100%);
+  opacity: var(--image-opacity, .24);
+}
+
+.web-hero-1 {
+  --web-top: -208px;
+  --web-right: -76.47px;
+  --web-width: 240.47px;
+  --web-height: 471.11px;
+  --shape-width: 171.72px;
+  --shape-height: 449.66px;
+  --shape-transform: rotate(-9.07deg) scaleY(-1);
+}
+
+.web-hero-2 {
+  --web-top: 212.31px;
+  --web-right: -86.63px;
+  --web-width: 207.66px;
+  --web-height: 405.49px;
+  --shape-width: 171.72px;
+  --shape-height: 391.1px;
+  --shape-transform: rotate(5.38deg) scaleY(-1);
+  --image-top: -34.3%;
+  --image-height: 134.3%;
+}
+
+.web-about {
+  --web-top: -100px;
+  --web-right: -107.07px;
+  --web-width: 237.07px;
+  --web-height: 461.32px;
+  --shape-width: 166.1px;
+  --shape-height: 439.79px;
+  --shape-transform: rotate(-9.59deg) scaleY(-1);
+}
+
+.web-dresscode {
+  --web-top: -48px;
+  --web-right: -72.9px;
+  --web-width: 189.9px;
+  --web-height: 347.53px;
+  --shape-width: 143.41px;
+  --shape-height: 330.18px;
+  --shape-transform: rotate(-8.36deg) scaleY(-1);
+}
+
+/* Thread and spider move together: the spider hangs at the bottom end of the thread */
+.hero-thread {
+  position: absolute;
+  z-index: 101;
+  top: var(--thread-top);
+  right: var(--thread-right);
+  width: 1px;
+  height: var(--thread-end);
+  background: var(--muted);
+  pointer-events: none;
+  animation: thread-lower var(--load-fall-duration) var(--load-fall-easing) backwards;
+}
+
+.hero-spider {
+  position: absolute;
+  top: 100%;
+  left: calc(var(--spider-size) / -2);
+  width: var(--spider-size);
+  max-width: none;
+  height: var(--spider-size);
+  transform: translateY(calc(var(--spider-hang-end) * -1));
+  animation: spider-lower var(--load-fall-duration) var(--load-fall-easing) backwards;
+}
+
+/* The thread sits above the header (z-index 100), so hide it behind the open mobile menu */
+body.menu-open .hero-thread {
+  visibility: hidden;
+}
+
+@keyframes hero-overlay-lighten {
+  from {
+    opacity: var(--hero-overlay-start);
+  }
+}
+
+@keyframes web-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes thread-lower {
+  from {
+    height: var(--thread-start);
+  }
+}
+
+@keyframes spider-lower {
+  from {
+    transform: translateY(calc(var(--spider-hang-start) * -1));
+  }
+}
+
+
+/* === Home page: cards, about section, CTA and tickets === */
+
+.card-scroller,
+.ticket-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: .25rem 1rem 1.25rem;
+  margin-inline: -1rem;
+  /* Første kort snapper til indholdets venstre margen (samme som padding), ikke til skærmkanten */
+  scroll-padding-inline: 1rem;
+  scrollbar-color: var(--yellow) var(--gray);
+}
+
+.ticket-grid {
+  padding-top: 1.25rem;
+}
+
+.image-card,
+.look-card,
+.ticket-card {
+  flex: 0 0 min(84vw, 330px);
+  scroll-snap-align: start;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--gray);
+}
+
+.image-card img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.image-card > div,
+.look-card > div {
+  padding: 1.4rem;
+}
+
+.image-card p,
+.look-card p {
+  color: #dedee1;
+}
+
+.home-about-section {
+  background: var(--black);
+}
+
+.home-about-intro {
+  max-width: 720px;
+  margin-bottom: 3rem;
+}
+
+/* Mobil: smallere kort (ca. 46 px af næste kort kan ses ved 402 px) og 42 px mellemrum */
+.home-about-section .card-scroller {
+  gap: 2.625rem;
+}
+
+.home-about-section .image-card {
+  flex-basis: min(74vw, 330px);
+  background: transparent;
+  border-radius: 0;
+}
+
+.home-about-section .image-card img {
+  border-radius: var(--radius);
+}
+
+.home-about-section .image-card > div {
+  padding: 1rem 0 0;
+}
+
+.feature-image {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-top: 2rem;
+}
+
+.portrait-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .6rem;
+  margin-bottom: 2rem;
+}
+
+.portrait-grid img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius);
+}
+
+.portrait-grid img:nth-child(3) {
+  object-position: center;
+}
+
+.accent-list {
+  padding: 0;
+  list-style: none;
+  margin: 2rem 0;
+}
+
+.accent-list li {
+  position: relative;
+  padding: .8rem 0 .8rem 2.25rem;
+  border-bottom: 1px solid var(--gray-2);
+}
+
+.accent-list .icon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cta-band {
+  background: var(--yellow);
+  color: var(--black);
+  padding: 3.5rem 0;
+  text-align: center;
+}
+
+/* Forsidens "Styr på outfittet"-banner vises ikke på mobil (vises igen fra 900 px) */
+.cta-band-desktop-only {
+  display: none;
+}
+
+.cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Ikon og tekst hører sammen som én gruppe (mobil: ikon over tekst, desktop: ikon til venstre for teksten) */
+.cta-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cta-inner h2 {
+  max-width: 780px;
+  margin-bottom: .35rem;
+}
+
+.cta-inner p {
+  margin-bottom: .5rem;
+}
+
+.tickets-home {
+  position: relative;
+  isolation: isolate;
+  background: #282835;
+  text-align: center;
+}
+
+.tickets-home .tickets-overlay {
+  background: url("../assets/images/home/home-16.webp") center/cover no-repeat;
+  opacity: 20%;
+  z-index: -1;
+}
+
+.tickets-content {
+  position: relative;
+}
+
+.tickets-home h2 {
+  font: 400 clamp(4.2rem, 12vw, 11.25rem)/.9 "Pirata One", serif;
+  text-transform: uppercase;
+  letter-spacing: .015em;
+  margin: 3rem 0 2rem;
+}
+
+.display-number {
+  font: inherit;
+  color: inherit;
+}
+
+/* Mobil: "31.", "oktober" og "2026" på hver sin linje (centreret via .tickets-home) */
+.tickets-home h2 .date-part {
+  display: block;
+}
+
+.tickets-heading {
+  margin: clamp(3.5rem, 7vw, 7rem) auto 2rem;
+}
+
+.tickets-heading h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: .75rem;
+}
+
+.tickets-heading p {
+  margin: 0;
+  color: var(--white);
+}
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 1.5rem;
+  border: 1px solid var(--gray-2);
+  position: relative;
+  overflow: visible;
+}
+
+.ticket-card.featured {
+  border: 1px solid var(--gray-2);
+}
+
+.ticket-card.sold-out {
+  opacity: .75;
+}
+
+.ticket-card h3,
+.ticket-card p:not(.price):not(.ticket-status) {
+  color: var(--muted);
+}
+
+/* Udsolgt-kortet er dæmpet (opacity), så teksten er lysere for at holde kontrasten */
+.ticket-card.sold-out h3,
+.ticket-card.sold-out p:not(.price):not(.ticket-status) {
+  color: #c4c4c4;
+}
+
+.ticket-status {
+  order: 10;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: auto 0 0;
+  padding-top: 1.5rem;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 800;
+  color: var(--yellow);
+}
+
+.available .ticket-status {
+  color: var(--white);
+}
+
+.sold-out .ticket-status {
+  color: var(--white);
+  text-decoration: line-through;
+}
+
+.price {
+  font: 700 3rem/1 Caudex, serif;
+  color: var(--white);
+}
+
+.sold-out .price {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.badge {
+  position: absolute;
+  top: -.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--blue);
+  color: var(--black);
+  font-size: .75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: .35rem 2rem;
+  border-radius: 99px;
+}
+
+.small-note {
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.event-facts-bottom {
+  max-width: 218px;
+  margin: 0 auto;
+  text-align: center;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.event-facts-bottom > div {
+  display: flex;
+  min-height: 123px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 0;
+  gap: .15rem;
+}
+
+.event-facts-bottom dt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+  color: #d0d0d5; /* lysere end --muted: tekst ligger over baggrundsbillede (kontrast ≥ 4,5:1) */
+}
+
+.event-facts-bottom .icon {
+  margin-bottom: .25rem;
+}
+
+.tickets-content > .button {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+
+/* === About page === */
+
+.page-hero {
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  padding: 5rem 0;
+}
+
+.page-hero-content > p:not(.eyebrow):not(.hero-meta) {
+  max-width: 700px;
+  font-size: 1.15rem;
+}
+
+.about-hero {
+  background-image: url("../assets/images/about/about-02.webp");
+  background-position: center;
+}
+
+.about-hero .hero-overlay {
+  background: linear-gradient(90deg, rgba(13, 13, 17, .92), rgba(13, 13, 17, .45));
+}
+
+.date-lockup {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.date-lockup span {
+  font: 400 6rem/1 "Pirata One", serif;
+  color: var(--yellow);
+}
+
+.date-lockup strong {
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.hero-meta {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 800;
+  margin-top: 1.4rem;
+}
+
+.hero-meta span {
+  color: var(--yellow);
+  padding-inline: .45rem;
+}
+
+.split {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.invitation {
+  background: var(--gray);
+  border-left: 5px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
+.invitation h3 {
+  text-transform: uppercase;
+  font: 800 .85rem/1.3 "DM Sans", sans-serif;
+  letter-spacing: .12em;
+  color: var(--yellow);
+  margin-bottom: .5rem;
+}
+
+.invitation-name {
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.75rem, 6vw, 3.75rem);
+  line-height: 1;
+}
+
+.invitation-details {
+  margin: 0;
+}
+
+/* Tydeligt label (dt) over værdien (dd), og en streg mellem hver oplysning */
+.invitation-details > div {
+  padding: 1rem 0;
+  border-top: 1px solid var(--gray-2);
+}
+
+.invitation-details dt {
+  margin-bottom: .3rem;
+  color: #d0d0d5;
+  font-size: .8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  line-height: 1.2;
+}
+
+.invitation-details dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.numbered > div > span,
+.look-card > div > span,
+.style-steps > li > span {
+  font: 400 2rem/1 "Pirata One", serif;
+  color: var(--yellow);
+}
+
+.numbered b,
+.look-card b {
+  display: block;
+  text-transform: uppercase;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  color: var(--yellow);
+  margin-top: 1rem;
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 3rem 0;
+}
+
+.timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .7rem;
+  padding: 0 0 2.5rem 2rem;
+  border-left: 1px solid var(--gray-2);
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -.5rem;
+  top: .1rem;
+  width: .9rem;
+  height: .9rem;
+  border: 3px solid var(--yellow);
+  background: var(--black);
+  border-radius: 50%;
+}
+
+.timeline time,
+.timeline-time {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: .8rem;
+  letter-spacing: .09em;
+  color: var(--yellow);
+}
+
+.timeline h3 {
+  margin-bottom: .3rem;
+}
+
+.timeline p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.practical {
+  border: 1px solid var(--gray-2);
+  padding: 1.3rem;
+  border-radius: var(--radius);
+}
+
+
+/* === Dresscode page === */
+
+.dresscode-hero {
+  background-color: var(--black);
+  background-image: url("../assets/images/dresscode/dresscode-05.webp");
+  background-position: center top;
+}
+
+.dresscode-hero .hero-overlay {
+  background: linear-gradient(90deg, rgba(13, 13, 17, .98), rgba(13, 13, 17, .86) 48%, rgba(13, 13, 17, .72));
+}
+
+.dresscode-hero h1 {
+  color: var(--yellow);
+  font-size: clamp(5rem, 15vw, 10rem);
+  margin-bottom: 0;
+}
+
+/* Underrubrikken er et afsnit (ikke en overskrift), men ser ud som den tidligere h2 */
+.dresscode-hero .page-hero-content > p.hero-subtitle {
+  max-width: none;
+  font-family: Caudex, serif;
+  font-size: clamp(1.7rem, 4vw, 3rem);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.swatches > div {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: .7rem;
+  align-items: center;
+}
+
+.swatch {
+  grid-row: 1/3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+}
+
+.swatch.black {
+  background: #0d0d11;
+}
+
+.swatch.charcoal {
+  background: #36363e;
+}
+
+.swatch.ivory {
+  background: #f1eee3;
+}
+
+.swatch.silver {
+  background: #b8bbc0;
+}
+
+.swatches strong {
+  text-transform: uppercase;
+  font-size: .8rem;
+  letter-spacing: .08em;
+}
+
+.swatches small {
+  color: var(--muted);
+}
+
+.look-card {
+  background: var(--black);
+}
+
+.look-card img {
+  width: 100%;
+  height: 430px;
+  background: var(--gray);
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.feature-image.tall {
+  max-width: 420px;
+  max-height: 600px;
+}
+
+.style-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.style-steps li {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 1rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--gray-2);
+}
+
+.style-steps h3 {
+  font-size: 1.35rem;
+  margin-bottom: .35rem;
+}
+
+.style-steps p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.center-note {
+  max-width: 760px;
+  margin: 3rem auto 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+
+/* === Signup page and form === */
+
+.signup-hero {
+  min-height: 400px; /* mobilbilledet er 402 × 400 px */
+  background-image: url("../assets/images/signup/hero-mobile-signup.webp");
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+/* Ingen gradient-overlay: billedet har 66 % styrke oven på --black (#0d0d11), dvs. en flad tone på 34 % */
+.signup-hero .hero-overlay {
+  background: rgba(13, 13, 17, .34);
+}
+
+.signup-hero > .container {
+  max-width: var(--container);
+}
+
+.signup-hero h1 {
+  max-width: 700px;
+}
+
+.signup-hero p:not(.eyebrow) {
+  max-width: 650px;
+}
+
+.ticket-grid-detailed .ticket-card {
+  background: var(--gray);
+}
+
+.ticket-card ul {
+  list-style: "✓  ";
+  padding-left: 1.25rem;
+  color: #e7e7e9;
+}
+
+.ticket-card li {
+  margin: .7rem 0;
+}
+
+.ticket-card li::marker {
+  color: var(--yellow);
+  font-weight: 800;
+}
+
+.signup-section {
+  position: relative;
+  isolation: isolate;
+  background: url("../assets/images/signup/signup-mobile.webp") center/cover no-repeat;
+}
+
+/* Samme princip som herotet: billedet har 66 % styrke oven på --black, ingen mørk overlay */
+.signup-overlay {
+  background: rgba(13, 13, 17, .34);
+  z-index: -1;
+}
+
+.form-layout {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.demo-notice {
+  border-left: 4px solid var(--yellow);
+  border-radius: var(--radius);
+  padding: 1rem;
+  background: rgba(40, 40, 53, .9);
+}
+
+.styled-form {
+  background: var(--gray);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: grid;
+  gap: .4rem;
+}
+
+.field {
+  margin-bottom: .9rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: .45rem;
+  font-weight: 700;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 50px;
+  padding: .8rem 1rem;
+  color: var(--white);
+  background: #22222c;
+  border: 1px solid #777783;
+  border-radius: 6px;
+}
+
+.field textarea {
+  min-height: 190px;
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #bdbdc4;
+  opacity: 1;
+}
+
+.field select {
+  display: block;
+  max-width: 100%;
+  min-height: 56px;
+  appearance: auto;
+  color-scheme: dark;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.field select option {
+  background: var(--white);
+  color: var(--black);
+  font-size: 1rem;
+}
+
+.field [aria-invalid="true"] {
+  border: 2px solid var(--error);
+}
+
+/* Fejl: koral ikon og "FEJL!", forklaringen er hvid. Farven er aldrig den eneste indikator (ikon + tekst). */
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  min-height: 1.25em;
+  margin: .35rem 0 0;
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.field-error .icon,
+.field-error strong {
+  color: var(--error);
+}
+
+.field-error strong {
+  text-transform: uppercase;
+}
+
+.field-hint,
+.privacy-note {
+  margin: .4rem 0 0;
+  color: #d0d0d5;
+  font-size: .9rem;
+}
+
+/* Succes: blå check, teksten er hvid */
+.field-success {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  color: var(--white);
+}
+
+.field-success .icon,
+.form-success .icon {
+  color: var(--blue);
+}
+
+.privacy-note {
+  margin-bottom: 1rem;
+}
+
+.form-submit {
+  width: 100%;
+}
+
+.confirmation-dialog {
+  width: min(92vw, 590px);
+  padding: 0;
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius);
+  background: var(--black);
+  color: var(--white);
+}
+
+.confirmation-dialog::backdrop {
+  background: rgba(0, 0, 0, .8);
+}
+
+.dialog-inner {
+  text-align: center;
+  padding: clamp(2rem, 6vw, 4rem);
+}
+
+.dialog-inner .brand-mark {
+  font-size: 3rem;
+}
+
+.dialog-inner h2 {
+  margin-top: 1rem;
+}
+
+.dialog-inner p {
+  color: #ddd;
+}
+
+
+/* === Contact page and FAQ === */
+
+.contact-hero {
+  min-height: 400px; /* mobilbilledet er 402 × 400 px */
+  background-image: url("../assets/images/signup/hero-mobile-signup.webp");
+  display: flex;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+/* Ingen gradient-overlay: billedet har 66 % styrke oven på --black (#0d0d11), dvs. en flad tone på 34 % */
+.contact-hero .hero-overlay {
+  background: rgba(13, 13, 17, .34);
+}
+
+.contact-hero h1 {
+  max-width: 700px;
+}
+
+.contact-hero p {
+  max-width: 610px;
+}
+
+.contact-grid {
+  display: grid;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.panel {
+  height: 100%;
+  background: var(--gray);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.form-success {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: 1rem;
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius);
+  background: var(--black);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.form-success[hidden] {
+  display: none;
+}
+
+.faq-list details {
+  border-bottom: 1px solid #60606b;
+}
+
+.faq-list summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 1.3rem 2.5rem 1.3rem 0;
+  font-weight: 600;
+}
+
+.faq-list summary h3 {
+  margin: 0;
+  font: inherit;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list .faq-icon::after {
+  content: "+";
+  position: absolute;
+  right: .4rem;
+  top: 1rem;
+  font-size: 1.5rem;
+}
+
+.faq-list details[open] .faq-icon::after {
+  content: "−";
+}
+
+.faq-list details p {
+  padding: 0 2.5rem 1.3rem 0;
+  color: #dedee2;
+}
+
+.faq-list details a {
+  color: var(--yellow);
+}
+
+
+/* === Footer === */
+
+.site-footer {
+  /* Mobil: 20 px padding i siderne (oven i containerens margen) */
+  padding: 4rem 20px 1.5rem;
+  background: var(--black);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 3rem;
+  text-align: center;
+}
+
+.footer-brand address {
+  font-style: normal;
+  margin-top: 1rem;
+  color: var(--white);
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  color: var(--muted);
+}
+
+.footer-contact > a {
+  text-decoration: none;
+}
+
+.instagram {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--white);
+  font-weight: 700;
+}
+
+.instagram img {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  text-align: left;
+}
+
+.footer-nav h2 {
+  font: 800 .75rem/1.2 "DM Sans", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+
+.footer-nav div {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-nav li {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-nav a,
+.footer-nav span {
+  font-size: .9rem;
+  text-decoration: none;
+}
+
+.footer-nav span {
+  color: #e1e1e4;
+}
+
+.copyright {
+  text-align: center;
+  color: var(--muted);
+  font-size: .8rem;
+  margin: 3rem 0 0;
+}
+
+
+/* === Responsive: up to 699px (phone layout) === */
+
+/*
+  Rettelser der kun gælder mobil (forsiden). Fra 700 px er layoutet et andet, så de ligger her i stedet for som basisregler.
+*/
+@media (max-width: 699px) {
+  /*
+    Afstand mellem sektionerne: hero → "Om festen" og "Om festen" → "Dresscode" er ens (96 px, målt fra sidste tekst/knap til eyebrow).
+    Alt nederst i Om festen nulstilles, så kun sektionernes eget topmellemrum (6rem) er tilbage.
+  */
+  .home-about-section {
+    padding-top: 6rem;
+    padding-bottom: 0;
+  }
+
+  .dresscode-preview {
+    padding-top: 6rem;
+  }
+
+  .home-about-section .card-scroller {
+    padding-bottom: 0;
+  }
+
+  .home-about-section .image-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /*
+    Dresscode-preview: tekst først, så galleri, så knap.
+    Tekst-containeren "pakkes ud" (display: contents), så knappen bliver et eget grid-element
+    efter galleriet. Fra 700 px er der to kolonner (galleri | tekst + knap).
+  */
+  .dresscode-preview .split {
+    row-gap: 0;
+  }
+
+  .dresscode-preview .split > div:not(.portrait-grid) {
+    display: contents;
+  }
+
+  /* Ingen streg under den sidste linje (Accessories), da galleriet følger lige efter */
+  .dresscode-preview .accent-list li:last-child {
+    border-bottom: 0;
+  }
+
+  /* Margener kollapser ikke i grid: 2rem (liste) − 1.35rem (afsnit) giver samme afstand som før */
+  .dresscode-preview .accent-list {
+    margin-top: .65rem;
+  }
+
+  .dresscode-preview .portrait-grid {
+    order: 1;
+  }
+
+  .dresscode-preview .split .button {
+    order: 2;
+    justify-self: center;
+  }
+
+  /* Ticket-sektion: lidt større linjeafstand i datoen (31. / oktober / 2026) */
+  .tickets-home h2 {
+    line-height: 1.05;
+  }
+
+  /* Sidepadding, så "hele natten." kommer ned på næste linje (se også uadskilleligt mellemrum i index.html) */
+  .tickets-heading p {
+    padding-inline: 2rem;
+  }
+
+  /* Baggrundsbilledet i samme skala som på desktop (1440 px bredt), placeret i øverste højre hjørne */
+  .tickets-home .tickets-overlay {
+    background-size: 1440px auto;
+    background-position: right top;
+  }
+
+  /* Hero-intro: lidt luft til højre, så teksten ikke løber helt ud til skærmkanten */
+  .about-hero .page-hero-content > p:not(.eyebrow):not(.hero-meta) {
+    padding-right: 1.5rem;
+  }
+
+  /* "Det venter dig": korttekst flugter med billedets venstrekant (som på desktop) i stedet for at stå indrykket */
+  .image-card.numbered {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .image-card.numbered img {
+    border-radius: var(--radius);
+  }
+
+  .image-card.numbered > div {
+    padding: 1rem 0 0;
+  }
+
+  /* "Aftenens forløb": tidslinjen rykkes lidt ind fra skærmkanten */
+  .timeline {
+    margin-left: 1rem;
+  }
+
+  .timeline li {
+    padding-left: 1.5rem;
+  }
+}
+
+
+/* === Responsive: 700px and up === */
+
+@media (min-width: 700px) {
+  .container {
+    width: min(100% - 3rem, var(--container));
+  }
+
+  .hero-title-line {
+    font-size: inherit;
+  }
+
+  .button-row {
+    flex-wrap: wrap;
+    gap: 1.7rem;
+  }
+
+  .button-row .button {
+    flex: 0 1 auto;
+    padding-inline: 1.5rem;
+  }
+
+  .button-row .button-secondary {
+    padding-inline: 38px;
+  }
+
+  .tickets-home h2 .date-part {
+    display: inline;
+  }
+
+  .site-footer {
+    padding-inline: 0;
+  }
+
+  .event-facts-hero {
+    grid-template-columns: repeat(4, minmax(max-content, 1fr));
+  }
+
+  .event-facts-bottom {
+    max-width: 720px;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: left;
+    gap: 0 1rem;
+  }
+
+  .event-facts-bottom > div {
+    display: block;
+    min-height: 0;
+  }
+
+  /* Ikon til venstre, lodret centreret ud for label og værdi */
+  .event-facts-bottom > div {
+    position: relative;
+  }
+
+  .event-facts-bottom dt {
+    display: block;
+  }
+
+  .event-facts-bottom dt,
+  .event-facts-bottom dd {
+    padding-left: 2.15rem;
+  }
+
+  .event-facts-bottom .icon {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+
+  .event-facts-hero .icon {
+    left: 1rem;
+  }
+
+  .event-facts > div {
+    padding: 1rem;
+    border-right: 1px solid rgba(255, 255, 255, .28);
+    border-bottom: 0;
+  }
+
+  .event-facts > div:last-child {
+    border-right: 0;
+  }
+
+  .split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 6vw, 6rem);
+  }
+
+  .portrait-grid {
+    margin-bottom: 0;
+  }
+
+  .timeline li {
+    grid-template-columns: 190px 1fr;
+    padding-left: 3rem;
+  }
+
+  .form-layout,
+  .contact-grid {
+    grid-template-columns: minmax(260px, .75fr) minmax(420px, 1.25fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .styled-form,
+  .panel {
+    padding: 2rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: .8fr 1.2fr;
+    align-items: start;
+    column-gap: 2rem;
+    row-gap: 2.5rem;
+    text-align: left;
+  }
+
+  .footer-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .footer-contact {
+    grid-column: 1;
+    grid-row: 2;
+    align-items: flex-start;
+  }
+
+  .footer-nav {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+
+/* === Responsive: 900px and up (desktop navigation and layout) === */
+
+@media (min-width: 900px) {
+  body {
+    font-size: 1.125rem;
+  }
+
+  .site-header {
+    height: 96px;
+    padding-inline: var(--header-pad-x);
+    background: var(--black);
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-nav {
+    display: flex;
+    position: static;
+    inset: auto;
+    background: none;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
+    overflow: visible;
+  }
+
+  .site-nav ul {
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
+  }
+
+  .site-nav a {
+    padding: .75rem 1rem;
+    border: 0;
+    font-size: 1rem;
+  }
+
+  .site-nav a[aria-current="page"] {
+    text-underline-offset: .45rem;
+  }
+
+  /* Figma: padding 18 px / 36 px, gap 10 px, ikon 24 px i en 56 px høj knap */
+  .site-nav .button {
+    min-width: var(--nav-cta-width);
+    min-height: 56px;
+    padding: 18px 36px;
+    gap: 10px;
+    margin-left: .8rem;
+    color: var(--black);
+    font-size: 1rem;
+    line-height: 20px;
+  }
+
+  .site-nav .button .icon {
+    margin-block: -2px;
+  }
+
+  .site-nav .button:hover,
+  .site-nav .button[aria-current="page"] {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  /* Home page load animation: desktop values (design frame 1440 px) */
+  .home-hero {
+    /* Fast placering: øjnene sidder ved "HorrorHouse"-teksten (ca. x 733, y 393 ved 1440 px). Billedet er zoomet så meget (se .hero-image), at det dækker heroen helt til toppen */
+    --hero-image-offset: translate(-8.6%, -.28%);
+    --hero-overlay-end: .68;
+    /* Tråden hænger 2 px under header-CTA'en og midt for den (knappens bund ligger 20 px over heroen) */
+    --thread-top: -18px;
+    --thread-right: calc(var(--header-pad-x) + var(--nav-cta-width) / 2 - .5px);
+    --thread-start: 21px;
+    --thread-end: 308px;
+    --spider-size: 50px;
+    --spider-hang-start: 22px;
+    --spider-hang-end: 14px;
+    align-items: center;
+    padding-block: 4rem;
+  }
+
+  /* Hero-titel (desktop): intro-linjen 70 px, "HorrorHouse" 128 px på linjen under */
+  .home-hero h1 {
+    max-width: none;
+  }
+
+  .hero-title-line,
+  .hero-title-brand {
+    display: block;
+  }
+
+  .hero-title-line {
+    font-size: 4.375rem;
+  }
+
+  .hero-title-brand {
+    font-size: 8rem;
+  }
+
+  .hero-media {
+    inset: 0;
+    height: auto;
+  }
+
+  .hero-image {
+    width: 121.36%;
+    height: 123.46%;
+  }
+
+  .decor-layer {
+    inset: 0;
+  }
+
+  .web-hero-1 {
+    --web-top: -373.85px;
+    --web-right: -306.75px;
+    --web-width: 980.75px;
+    --web-height: 1081.66px;
+    --shape-width: 445px;
+    --shape-height: 1024.53px;
+    --shape-transform: rotate(-37.93deg) scaleY(-1);
+  }
+
+  .web-hero-2 {
+    --web-top: 279.15px;
+    --web-right: -284.55px;
+    --web-width: 770.55px;
+    --web-height: 1116.68px;
+    --shape-width: 471.31px;
+    --shape-height: 1019.84px;
+    --shape-transform: rotate(-161.5deg);
+    --image-top: 0;
+    --image-width: 99.24%;
+    --image-height: 100%;
+    --image-opacity: .32;
+  }
+
+  .web-about {
+    display: none;
+  }
+
+  .web-dresscode {
+    --web-top: -252.85px;
+    --web-right: -272.75px;
+    --web-width: 739.75px;
+    --web-height: 1111.89px;
+    --shape-width: 445px;
+    --shape-height: 1024.53px;
+    --shape-transform: rotate(-18deg) scaleY(-1);
+  }
+
+  .card-scroller,
+  .ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+    padding: .25rem;
+    margin-inline: 0;
+    gap: 1.5rem;
+  }
+
+  /* Figma: 388 px kort med 58 px mellemrum på 1440 px. Gap skalerer ned på smallere skærme */
+  .home-about-section .card-scroller {
+    gap: clamp(1.5rem, 4vw, 58px);
+  }
+
+  /* Mindre mellemrum mellem "Om festen" og "Dresscode": nederste padding i Om festen er halveret */
+  .home-about-section {
+    padding-bottom: calc(var(--space-section) / 2);
+  }
+
+  .image-card,
+  .look-card,
+  .ticket-card {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .image-card img {
+    height: 470px;
+  }
+
+  .look-card img {
+    height: 520px;
+  }
+
+  /* Om festen: invitationsboksen er smallere end kolonnen og flugter med containerens højre kant */
+  .invitation {
+    width: 100%; /* uden width krymper justify-self: end boksen til indholdets bredde */
+    max-width: 440px;
+    justify-self: end;
+  }
+
+  /* Dresscode "Find dit look": tal og tag hører sammen, titel og beskrivelse hører sammen – med luft imellem de to grupper */
+  .look-card b {
+    margin: .3rem 0 1.25rem;
+  }
+
+  .look-card h3 {
+    margin-bottom: .5rem;
+  }
+
+  .cta-band-desktop-only {
+    display: block;
+  }
+
+  /* CTA-banner: advarsel + tekst som én gruppe til venstre, knappen til højre. Tekst og knap står i forhold til hinanden */
+  .cta-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+    min-height: 5rem; /* samme bannerhøjde med og uden understøttende linje */
+    text-align: left;
+  }
+
+  .cta-message {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+
+  .cta-message .icon--xl {
+    width: 64px;
+    height: 64px;
+  }
+
+  .cta-inner h2 {
+    max-width: none;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+    text-wrap: balance;
+  }
+
+  .cta-inner p {
+    margin: .5rem 0 0;
+    font-size: 1.25rem;
+  }
+
+  .cta-inner .button {
+    flex-shrink: 0;
+    min-height: 64px;
+    padding: 1rem 2.25rem;
+    font-size: 1.25rem;
+  }
+
+  .cta-inner .button .icon--lg {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Heroerne har samme højde som forsidens (Figma: 790 px) – undtagen Kontakt og Tilmelding */
+  .home-hero,
+  .page-hero {
+    min-height: 790px;
+  }
+
+  /* Tilmelding: lavere hero end forsidens. Billedet er centreret og beskåret oppe og nede; 620 px er valgt, så hele månen er med. */
+  .signup-hero {
+    min-height: 620px;
+    background-image: url("../assets/images/signup/signup-07.webp");
+    background-position: center;
+  }
+
+  /* Tilmelding: desktop-billedet til formularsektionen (mobil bruger hero-mobile-signup.png og signup-mobile.png) */
+  .signup-section {
+    background-image: url("../assets/images/signup/signup-01.webp");
+  }
+
+  /*
+    Kontakt: lav hero (Figma: 392 px). Billedet står i fuld bredde og er forskudt opad (Figma: -286 px),
+    så træerne og tågen fra bunden af billedet vises. "Har du spørgsmål?" står på én linje (Figma: 86 px + 96 px).
+  */
+  .contact-hero {
+    min-height: 392px;
+    background-image: url("../assets/images/contact/contact-02.webp");
+    background-position: center 68%;
+  }
+
+  .contact-hero h1 {
+    max-width: none;
+    font-size: 5.375rem;
+  }
+
+  .contact-hero h1 .pirata {
+    font-size: 6rem;
+  }
+
+  /* Fælles hero-farve for Om festen og Dresscode: grå bund med en mørk tone, der er lysere end menu og sektion under */
+  .about-hero,
+  .dresscode-hero {
+    --hero-tint: linear-gradient(90deg, rgba(13, 13, 17, .62) 5%, rgba(13, 13, 17, .42) 48%, rgba(13, 13, 17, .15));
+  }
+
+  /*
+    Om festen: som dresscode – billedet til højre i fuld højde, uden overlay over billedet.
+    Gradienten ligger som baggrundslag BAG billedet, så billedet ikke dæmpes.
+  */
+  .about-hero {
+    background-color: var(--gray);
+    background-image: url("../assets/images/about/about-02.webp"), var(--hero-tint);
+    background-position: right top, 0 0;
+    background-size: auto 100%, 100% 100%;
+  }
+
+  .about-hero .hero-overlay {
+    display: none;
+  }
+
+  /* "Det venter dig": overskrift, billeder og korttekst flugter i samme venstrekant */
+  .card-scroller-flush {
+    padding-inline: 0;
+  }
+
+  .image-card.numbered {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .image-card.numbered img {
+    border-radius: var(--radius);
+  }
+
+  .image-card.numbered > div {
+    padding: 1rem 0 0;
+  }
+
+  /* "Aftenens forløb": vandret tidslinje på desktop (lodret på mobil og tablet) */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  .timeline li {
+    grid-template-columns: 1fr;
+    padding: 2.25rem 0 0;
+    border-left: 0;
+  }
+
+  .timeline li::before {
+    left: 0;
+    top: 0;
+  }
+
+  .timeline time,
+  .timeline-time {
+    font-size: 1.125rem;
+  }
+
+  /* Stregen fra prikken videre til næste punkt (rækker ind over mellemrummet) */
+  .timeline li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: calc(.45rem - .5px);
+    left: .9rem;
+    right: -2rem;
+    border-top: 1px solid var(--gray-2);
+  }
+
+  .dresscode-hero {
+    background-color: var(--gray);
+    background-image: url("../assets/images/dresscode/dresscode-05.webp");
+    background-position: right top;
+    background-size: auto 100%;
+  }
+
+  .dresscode-hero .hero-overlay {
+    background: var(--hero-tint);
+  }
+
+  .dresscode-hero h1 {
+    color: var(--white);
+  }
+
+  /*
+    Dresscode "Sådan sammensætter du et look": overskrift og tekst løftes ud over begge kolonner (så titlen kan stå på én linje),
+    og trinene centreres lodret ud for billedet. Wrapperen er kun layout, så den fjernes fra gridet.
+  */
+  .styling-section .split > div:first-child {
+    display: contents;
+  }
+
+  .styling-section .split {
+    row-gap: 0;
+  }
+
+  .styling-section .split > div > h2,
+  .styling-section .split > div > p {
+    grid-column: 1 / -1;
+  }
+
+  .styling-section .split > div > p {
+    max-width: 600px;
+  }
+
+  .ticket-grid-detailed {
+    align-items: stretch;
+  }
+
+  .footer-grid {
+    grid-template-columns: minmax(250px, .8fr) minmax(360px, 1.2fr);
+    column-gap: 5rem;
+    row-gap: 2.5rem;
+  }
+}
+
+
+/* === Responsive: up to 374px (small phones) === */
+
+@media (max-width: 374px) {
+  .container {
+    width: min(100% - 1.25rem, var(--container));
+  }
+
+  /* Scrollerne går ud i containerens margen: den negative margin skal følge den smallere margen (.625rem), ellers bliver siden for bred */
+  .card-scroller,
+  .ticket-grid {
+    margin-inline: -.625rem;
+    padding-inline: .625rem;
+    scroll-padding-inline: .625rem;
+  }
+
+  .site-header {
+    padding-inline: .65rem;
+  }
+
+  .home-hero {
+    --thread-right: calc(.65rem + 22px - 20px - .5px); /* følger header-padding, så tråden stadig er midt under burgerikonet */
+  }
+
+  .brand {
+    font-size: 1.35rem;
+  }
+
+  .event-facts-hero {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .button-row {
+    display: grid;
+  }
+
+  .hero-meta {
+    font-size: .78rem;
+  }
+
+  .panel,
+  .styled-form {
+    padding: 1rem;
+  }
+
+  .footer-nav {
+    gap: .5rem;
+  }
+}
+
+
+/* === Accessibility: reduced motion === */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Home page load animation: show the END state immediately */
+  .hero-overlay,
+  .web,
+  .hero-thread,
+  .hero-spider {
+    animation: none !important;
+  }
+}
