@@ -1479,13 +1479,6 @@ body.menu-open .hero-thread {
   align-items: start;
 }
 
-.demo-notice {
-  border-left: 4px solid var(--yellow);
-  border-radius: var(--radius);
-  padding: 1rem;
-  background: rgba(40, 40, 53, .9);
-}
-
 .styled-form {
   background: var(--gray);
   border-radius: var(--radius);
@@ -1623,6 +1616,14 @@ body.menu-open .hero-thread {
 
 .dialog-inner p {
   color: #ddd;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  margin-top: 1.5rem;
 }
 
 
